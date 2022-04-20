@@ -56,9 +56,9 @@
 
 ```
 [オプション]　　radare2に興味がなければインストールする必要はありません。
-	radare2: デバッガ
-		git clone https://github.com/radareorg/radare2
-		cd radare2 ; sys/install.sh
+radare2: デバッガ
+	git clone https://github.com/radareorg/radare2
+	cd radare2 ; sys/install.sh
 ```
 [その他]
 
