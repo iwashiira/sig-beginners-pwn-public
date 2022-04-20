@@ -1,6 +1,63 @@
 []があるのは引数をとるコマンド
+.gdbinitにユーザー定義のコマンドを追加できる
 
 * ノーマルなgdbのコマンド
+help []         引数に入っているコマンドに対するhelpを表示
+
+info []         引数で指定された情報の表示
+    prog(program)       programの状態
+    func(function)      関数などのシンボルの一覧。libcの関数等も表示してしまうのでプログラム固有のものが見たければ、runする前に確認すると良い。
+    args(arguments)     現在の関数の引数の表示
+    stack               スタック上の関数の積層の様子
+    frame               現在のスタックフレームの情報
+    reg(registers)      レジスタの情報
+    b(break)            breakpointの情報
+
+shell []        OSのshellコマンドを実行可能。例えばshell clear。引数なしだとshellそのものがgdbの子プロセスとして起動
+![]             shellコマンドと同じ
+
+b []            breakpointをはるコマンド。引数にアドレスを取る場合は「*」をつける。例えばb *0x400012
+b [] if []      if文の条件に当てはまった時にbreak
+del []          breakpointの削除
+
+r               breakpointに当たるかerrorで落ちるかプログラムが正常終了するまで実行
+c               止まっていたプログラムの実行を継続
+fin             現在の関数を抜ける(exitする)まで実行
+n               ソースコードの1行分を実行。ネストの関数の中で止まることはない。
+s               ソースコードの1行分を実行。ネストの関数の中でも1行分で止まるni              1命令分を実行。call命令などで呼び出し先の関数の中で止まることはない。
+si              1命令分を実行。call命令なでの呼び出し先の関数の中でも1命令分で止まる。
+
+q               quitコマンド。gdbの終了コマンド。
+
+p []            printコマンド。引数の変数の値を表示。
+    &(func)     関数のアドレスを表示。()は必要ない。例えばp &main
+    $(reg)      レジスタの値を表示。()は必要ない。例えばp $rip
+p/[type] []     値を指定したtypeで表示。例えばp/x $rsp
+    /t          binary
+    /x          16進数
+    /c          character
+    /f          floating point
+    /s          string
+
+x [address]     addressの指す値を表示。例えばx 0x7fffffffe3b8やx $rsp
+x/[length][format] [address]
+    length      何個表示するか。
+    format      どのような形式で表示するか。値の型とwordをそれぞれ指定できる。
+        型
+            /t  binary
+            /o  8進数
+            /x  16進数
+            /d  decimal
+            /f  floating point
+            /a  address
+            /i  instruction
+            /c  character
+            /s  string
+        word
+            /b  byte
+            /h  half-word(16bit)    インテル記法で言うWORD
+            /w  word(32bit)         インテル記法のDWORD
+            /g  giant-word(64bit)   インテル記法のQWORD
 
 * peda拡張のコマンド
 
