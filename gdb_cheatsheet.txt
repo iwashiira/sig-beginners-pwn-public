@@ -76,9 +76,12 @@ sgrep [string]  文字列の検索。後ろにallをつければデバッグし�
 pd(pdisas)      disasのcallやjmp命令が色付きで見やすくなる。
 telescope [cnt] addressを指定しなければstackを表示
 checksec        checksecというプログラムが個別に存在するが、それと同じ機能。バイナリのセキュリティ機構の有無を確認。
+他にもマニアックなコマンドがたくさんある。
 
 * Pwngdb固有のコマンド
 
 libc            libc_baseのアドレス
 ld              ldのアドレス
 got             gotのテーブルの情報を表示
+
+他にもheap関連のコマンドがそこそこ存在する。
