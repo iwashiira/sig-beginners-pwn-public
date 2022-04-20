@@ -54,10 +54,12 @@
 		sudo apt install python-pip libssl-dev libffi-dev
 		python -m pip install pwntools pathlib2
 
-オプション　　radare2に興味がなければインストールする必要はありません。
+```
+[オプション]　　radare2に興味がなければインストールする必要はありません。
 	radare2: デバッガ
 		git clone https://github.com/radareorg/radare2
 		cd radare2 ; sys/install.sh
+```
 [その他]
 
 	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを
