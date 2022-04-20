@@ -7,7 +7,7 @@
 	Vagrant: generic/ubuntu1804を使う
 		https://www.vagrantup.com/downloads
 		自分の好みのディレクトリの下でvagrant initを実行する。
-		ディレクトリ内に生成されたVagrantfileを、別で渡す例に習って編集し保存する。
+		ディレクトリ内に生成されたVagrantfileを、例に習って編集し保存する。
 			割り当てるcpuの数、メモリ、名前は適宜自分の環境に合わせる。
 		vagrant upを叩く(AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。)
 		vagrant upが終わったらvagrant sshで仮想環境内に入る。
@@ -63,3 +63,4 @@
 	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを
 	作るので、最低限のvi系エディタの扱いは慣れておいてください。
 	インサートモードから出入りするコマンドと変更を保存するorしないで閉じるコマンドさえ覚えていれば十分です。
+	python3でもpwntoolsは動きますが、stringとbyte列を足し算で足せないのがそこそこ面倒なのでpython2を僕は使っています。
