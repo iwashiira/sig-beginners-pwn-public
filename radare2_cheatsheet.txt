@@ -46,7 +46,7 @@ VV		今いる関数のフローグラフの表示。qを二回押せば戻れる
 * 子プロセスのデバッグ
 	forkが実行されるアドレスにdbでbreakpointをはる
 	そこまでdcで実行
-	dbg.forks=true
+	e dbg.forks=true
 	dcで実行をするとforkで止まる
 	dpaで子プロセスにアタッチする
 
