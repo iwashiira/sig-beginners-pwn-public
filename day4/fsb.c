@@ -2,7 +2,7 @@
 
 void func()
 {
-	char * buf[0x20];
+	char buf[0x20];
 	scanf("%31s", buf);
 	printf(buf);
 	return;
@@ -10,7 +10,7 @@ void func()
 
 int main()
 {
-	char * buf[0x20];
+	char buf[0x20];
 	scanf("%31s", buf);
 	printf(buf);
 	func();
