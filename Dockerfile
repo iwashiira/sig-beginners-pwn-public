@@ -22,8 +22,7 @@ ARG USERNAME
 ARG GROUPNAME
 ARG UID
 ARG GID
-RUN groupadd -g $GID $GROUPNAME && \
-    useradd -m -s /bin/bash -u $UID -g $GID $USERNAME
+RUN useradd -m -s /bin/bash -u $UID $USERNAME
 WORKDIR /home/$USERNAME/
 RUN mkdir -p ./pwn/Tools
 
@@ -31,6 +30,7 @@ WORKDIR /home/$USERNAME
 COPY .gdbinit ./.gdbinit
 COPY ./Programs ./pwn/Programs
 RUN chown -R $UID:$GID ./pwn/Programs
+RUN chmod 777 ./pwn/Programs
 
 RUN wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
 RUN gem install one_gadget

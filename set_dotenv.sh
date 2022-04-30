@@ -6,6 +6,6 @@ fi
 
 touch .env
 echo "UID=$(id -u $USER)" >> .env
-echo "GID=1000" >> .env
+echo "GID=$(id -g $USER)" >> .env
 echo "USERNAME=$USER" >> .env
-echo "GROUPNAME=pwner" >> .env
+echo "GROUPNAME=$USER" >> .env

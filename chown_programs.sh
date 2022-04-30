@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo chown -R $(id -u $USER):1000 ./Programs
+sudo chown -R $(id -u $USER):$(id -g $USER) ./Programs

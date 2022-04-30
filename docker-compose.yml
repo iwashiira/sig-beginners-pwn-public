@@ -12,4 +12,4 @@ services:
         user: $UID:$GID
         tty: true
         volumes:
-            - ./Programs:/home/pwner/pwn/Programs:rw
+            - ./Programs:/home/$USERNAME/pwn/Programs:rw
