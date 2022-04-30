@@ -13,18 +13,10 @@ RUN apt update && apt install -y \
   wget \
   pkg-config \
   git \
+  sudo \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
 
-ARG USERNAME=pwner
-ARG GROUPNAME=pwner
-ARG UID=1000
-ARG GID=1000
-ARG PASSWORD=pwner
-RUN groupadd -g $GID $GROUPNAME && \
-    useradd -m -s /bin/bash -u $UID -g $GID -G sudo $USERNAME && \
-    echo $USERNAME:$PASSWORD | chpasswd && \
-    echo "$USERNAME   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER $USERNAME
 WORKDIR /home/$USERNAME/
 RUN mkdir -p ./pwn/Tools
@@ -32,6 +24,7 @@ RUN mkdir -p ./pwn/Tools
 WORKDIR /home/$USERNAME
 COPY .gdbinit ./.gdbinit
 COPY ./Programs ./pwn/Programs
+RUN chmod 777 ./pwn/Programs
 
 RUN python -m pip install pwntools pathlib2
 
@@ -42,4 +35,5 @@ RUN git clone https://github.com/radareorg/radare2 \
   && cd radare2 \
   && ./sys/install.sh
 
+WORKDIR /home/$USERNAME
 CMD ["/bin/bash"]

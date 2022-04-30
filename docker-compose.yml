@@ -4,5 +4,7 @@ services:
 
     pwn_ubuntu1804:
       build: .
+      user: pwner
+      tty: true
       volumes:
-        - ./Programs:/home/pwner/pwn/Programs
+        - ./Programs:/home/pwner/pwn/Programs:rw
