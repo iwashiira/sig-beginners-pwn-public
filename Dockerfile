@@ -32,7 +32,7 @@ COPY ./Programs ./pwn/Programs
 RUN chown -R $UID:$GID ./pwn/Programs
 RUN chmod 777 ./pwn/Programs
 
-RUN wget https://github.com/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
+RUN wget wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
 RUN chmod +x /usr/local/bin/rp++
 RUN gem install one_gadget
 RUN python -m pip install pwntools pathlib2
