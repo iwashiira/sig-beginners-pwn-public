@@ -90,7 +90,7 @@
 	# コンテナの停止
 	docker-compose stop
 	# コンテナ内に入る
-	docker exec -it pwn_ubuntu1804 /bin/bash
+	docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804 /bin/bash
 	# コンテナから出る
 	Ctrl-D
 	
