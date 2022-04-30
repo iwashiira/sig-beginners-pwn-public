@@ -33,7 +33,7 @@ RUN chown -R $UID:$GID ./pwn/Programs
 RUN chmod 777 ./pwn/Programs
 
 RUN wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
-RUN chomd +x /usr/local/bin/rp++
+RUN chmod +x /usr/local/bin/rp++
 RUN gem install one_gadget
 RUN python -m pip install pwntools pathlib2
 
