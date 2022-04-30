@@ -30,6 +30,7 @@ RUN mkdir -p ./pwn/Tools
 WORKDIR /home/$USERNAME
 COPY .gdbinit ./.gdbinit
 COPY ./Programs ./pwn/Programs
+RUN chown -R $UID:$GID ./pwn/Programs
 
 RUN wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
 RUN gem install one_gadget
