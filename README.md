@@ -89,8 +89,10 @@
 	docker-compose up -d
 	# コンテナの停止
 	docker-compose stop
+	# コンテナ名の確認、実行状態の確認。
+	docker-compose ps
 	# コンテナ内に入る
-	docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804 /bin/bash
+	docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804_1 /bin/bash
 	# コンテナから出る
 	Ctrl-D
 	
