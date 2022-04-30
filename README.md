@@ -54,12 +54,48 @@
 		sudo apt install python-pip libssl-dev libffi-dev
 		python -m pip install pwntools pathlib2
 
-```
+
 [オプション]　　radare2に興味がなければインストールする必要はありません。
-radare2: デバッガ
-	git clone https://github.com/radareorg/radare2
-	cd radare2 ; sys/install.sh
-```
+
+	radare2: デバッガ
+		git clone https://github.com/radareorg/radare2
+		cd radare2 ; sys/install.sh
+
+
+# Dockerを使った環境構築
+特にM1 Macを使っている人はDockerを使った環境構築を行ってください。Windows用には作っていません。
+
+[host] Dockerとdocker-composeをインストール
+
+	Docker:
+		https://docs.docker.com/get-docker/
+	
+	docker-compose:
+		https://docs.docker.com/compose/install/
+
+[docker] このリポジトリ内のDockerfileとdocker-compose.ymlを使います。環境が立ち上がるまでに時間がかかります。
+
+	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+	cd sig-beginners-pwn-public
+	
+	# .envファイルを作成する
+	./set_dotenv.sh
+	
+	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかります。その代わり別でaptして何かをインストールする必要はないです。再ビルドもこれ。
+	docker-compose -p pwn_ubuntu1804 build
+	
+	# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
+	# コンテナの実行
+	docker-compose up -d
+	# コンテナの停止
+	docker-compose stop
+	# コンテナ内に入る
+	docker exec -it pwn_ubuntu1804 /bin/bash
+	# コンテナから出る
+	Ctrl-D
+	
+	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されません。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消えます。
+
 [その他]
 
 	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを
