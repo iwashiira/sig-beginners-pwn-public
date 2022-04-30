@@ -4,6 +4,7 @@ RUN apt update && apt install -y \
   build-essential \
   gdb \
   python \
+  ruby-full \
   python-pip \
   libssl-dev \
   libffi-dev \
@@ -17,15 +18,21 @@ RUN apt update && apt install -y \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
 
-USER $USERNAME
+ARG USERNAME
+ARG GROUPNAME
+ARG UID
+ARG GID
+RUN groupadd -g $GID $GROUPNAME && \
+    useradd -m -s /bin/bash -u $UID -g $GID $USERNAME
 WORKDIR /home/$USERNAME/
 RUN mkdir -p ./pwn/Tools
 
 WORKDIR /home/$USERNAME
 COPY .gdbinit ./.gdbinit
 COPY ./Programs ./pwn/Programs
-RUN chmod 777 ./pwn/Programs
 
+RUN wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
+RUN gem install one_gadget
 RUN python -m pip install pwntools pathlib2
 
 WORKDIR /home/$USERNAME/pwn/Tools

@@ -1,10 +1,15 @@
 version: "3.9"
 
 services:
-
-    pwn_ubuntu1804:
-      build: .
-      user: pwner
-      tty: true
-      volumes:
-        - ./Programs:/home/pwner/pwn/Programs:rw
+        pwn_ubuntu1804:
+        build: 
+                context: .
+                args:
+                        UID: $UID
+                        GID: $GID
+                        USERNAME: $USERNAME
+                        GROUPNAME: $GROUPNAME
+        user: $UID:$GID
+        tty: true
+        volumes:
+          - ./Programs:/home/pwner/pwn/Programs:rw
