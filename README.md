@@ -78,8 +78,9 @@
 	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
 	cd sig-beginners-pwn-public
 	
-	# .envファイルを作成する
+	# .envファイルを作成するほか、./Programsディレクトリのパーミッションをrwxにする。
 	./set_dotenv.sh
+	chmod 777 ./Programs
 	
 	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかります。その代わり別でaptして何かをインストールする必要はないです。再ビルドもこれ。
 	docker-compose -p pwn_ubuntu1804 build
