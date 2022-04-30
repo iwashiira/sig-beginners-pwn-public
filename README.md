@@ -79,23 +79,23 @@
 	cd sig-beginners-pwn-public
 	
 	# .envファイルを作成するほか、./Programsディレクトリのパーミッションをrwxにする。
-	./set_dotenv.sh
-	chmod 777 ./Programs
+		./set_dotenv.sh
+		chmod 777 ./Programs
 	
 	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかります。その代わり別でaptして何かをインストールする必要はないです。再ビルドもこれ。
-	docker-compose -p pwn_ubuntu1804 build
+		docker-compose -p pwn_ubuntu1804 build
 	
 	# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 	# コンテナの実行
-	docker-compose up -d
+		docker-compose up -d
 	# コンテナの停止
-	docker-compose stop
+		docker-compose stop
 	# コンテナ名の確認、実行状態の確認。
-	docker-compose ps
+		docker-compose ps
 	# コンテナ内に入る
-	docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804_1 /bin/bash
+		docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804_1 /bin/bash
 	# コンテナから出る
-	Ctrl-D
+		Ctrl-D
 	
 	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されません。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消えます。
 	# エディタはvimとneovimが入っています。
