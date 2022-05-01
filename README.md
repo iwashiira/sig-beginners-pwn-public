@@ -75,6 +75,9 @@
 
 [docker] このリポジトリ内のDockerfileとdocker-compose.ymlを使います。環境が立ち上がるまでに時間がかかります。
 
+	# Docker for Macを使っている場合は、Launchpadからappを起動してdockerとdocker-composeを使えるようにする。
+	
+	# 必要なDockerの設定ファイルを持ってくる。
 	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
 	cd sig-beginners-pwn-public
 	
