@@ -14,6 +14,7 @@ RUN apt update && apt install -y \
   wget \
   pkg-config \
   git \
+  netcat \
   sudo \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
