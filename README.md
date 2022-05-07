@@ -97,6 +97,8 @@
 		docker-compose ps
 	# コンテナ内に入る
 		docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804_1 /bin/bash
+		# または
+		docker-compose exec pwn_ubuntu1804 bash
 	# コンテナから出る
 		Ctrl-D
 	
