@@ -63,7 +63,7 @@
 
 
 # Dockerを使った環境構築
-特にM1 Macを使っている人はDockerを使った環境構築を行ってください。Windows用には作っていません。
+M1 Macを使っている人はこの方法も利用できません。ptraceがサポートされておらず、gdbを使えないので。Windows用には作っていません。
 
 [host] Dockerとdocker-composeをインストール
 
