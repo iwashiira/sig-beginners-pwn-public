@@ -135,7 +135,7 @@ M1 Macを使っている人はこちらを利用してください。
 		git pull origin main
 	
 	# ubuntu18.04の仮想マシンを起動
-		limactl start bionic-amd64.yml
+		limactl start --tty=false bionic-amd64.yml
 	# 仮想マシンの一覧
 		limactl list
 	# 仮想マシンの中にはいる
