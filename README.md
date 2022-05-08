@@ -144,6 +144,40 @@ M1 Macを使っている人はこちらを利用してください。
 		Ctrl-D
 	# 仮想マシンを止める
 		limactl stop bionic-amd64
+
+[ubuntu18.04]　併記のコマンドを実行するだけでよい。git cloneを実行するカレントディレクトリは自分で決めること。
+
+	[例]
+	.
+	└── pwn
+    	├── Programs
+    	└── Tools
+        		├── peda
+        		├── Pwngdb
+        		└── radare2
+
+
+	gcc: コンパイラ
+		sudo apt update && sudo apt upgrade -y
+		sudo apt install build-essential
+
+	gdb: デバッガ	
+		sudo apt install gdb
+
+	python2:
+		sudo apt install python
+
+	peda: gdbの拡張
+		git clone https://github.com/longld/peda.git
+
+	pwngdb: pedaの拡張
+		git clone https://github.com/scwuaptx/Pwngdb.git
+        ~/.gdbinitを編集する。
+
+	pwntools: pwn用のpythonライブラリ
+		sudo apt install python-pip libssl-dev libffi-dev
+		python -m pip install pwntools pathlib2
+
 	
 
 [その他]
