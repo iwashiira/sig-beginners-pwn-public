@@ -105,6 +105,47 @@ M1 Macを使っている人はこの方法も利用できません。ptraceが�
 	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されません。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消えます。
 	# エディタはvimとneovimが入っています。
 
+# Limaを使った環境構築
+M1 Macを使っている人はこちらを利用してください。
+
+[host] brewとLimaとgitをインストール
+
+	brewのインストール
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	# .zshrcを作っていない人は作成
+		touch ~/.zshrc
+	# .zshrcにbrewのPathを通す
+	# vimで~/.zshrcファイルを開く
+		vim ~/.zshrc
+	# iと打ってinsertモードに入り、以下の一行を追記
+		export PATH=$PATH:/opt/homebrew
+	# ESCでinsertモードから抜け、:wqと打って変更を保存
+		source ~/.zshrc
+	# brewが入っていることを確認
+		brew help
+	
+	Limaとgitのインストール
+		brew install lima git
+	
+	# 必要なLimaの設定を持ってくる
+		git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+		cd sig-beginners-pwn-public
+		# 既にcloneしていた人は中身を更新
+		cd sig-beginners-pwn-public
+		git pull origin main
+	
+	# ubuntu18.04の仮想マシンを起動
+		limactl start --tty=false bionic-amd64.yml
+	# 仮想マシンの一覧
+		limactl list
+	# 仮想マシンの中にはいる
+		limactl shell bionic-amd64
+	# 仮想マシンから出る
+		Ctrl-D
+	# 仮想マシンを止める
+		limactl stop bionic-amd64
+	
+
 [その他]
 
 	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを
