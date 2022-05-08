@@ -1,0 +1,4 @@
+arch: "x86_64"
+images:
+- location: "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+  arch: "x86_64"
