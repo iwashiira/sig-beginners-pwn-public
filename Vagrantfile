@@ -99,6 +99,6 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/radareorg/radare2
     chown -R vagrant:vagrant /home/vagrant/pwn
     cd radare2 \
-    && ./sys/install.sh
+    && sudo -u vagrant -H ./sys/install.sh
   SHELL
 end
