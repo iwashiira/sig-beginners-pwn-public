@@ -15,6 +15,7 @@ RUN apt update && apt install -y \
   pkg-config \
   git \
   netcat \
+  patchelf \
   sudo \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
