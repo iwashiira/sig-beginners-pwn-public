@@ -13,6 +13,11 @@ Ghidraをインストールすること。
 ## WSLを使った環境構築
 Windowsを使っている人のみWSLを使うことができる。
 
+[host]
+
+	WSL: ubuntu18.04をインストールする
+		https://docs.microsoft.com/ja-jp/windows/wsl/install
+
 [ubuntu18.04]　併記のコマンドを実行するだけでよい。git cloneを実行するカレントディレクトリは自分で決めること。
 
 	[例]
