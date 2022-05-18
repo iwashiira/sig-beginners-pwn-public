@@ -1,25 +1,17 @@
 # sig-beginners-pwn
+Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
 
-# 環境構築
+# Hostの環境構築
 
-[host]　Vagrant,Virtualbox, Ghidraをそれぞれインストールすること。Vagrantの代わりにWSL2を使ってもよい。
-
-	Vagrant: generic/ubuntu1804を使う
-		https://www.vagrantup.com/downloads
-		自分の好みのディレクトリの下でvagrant initを実行する。
-		ディレクトリ内に生成されたVagrantfileを、例に習って編集し保存する。
-			割り当てるcpuの数、メモリ、名前は適宜自分の環境に合わせる。
-		vagrant upを叩く(AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。)
-		vagrant upが終わったらvagrant sshで仮想環境内に入る。
-		環境構築をする。
-		Ctrl-Dで仮想環境から出て、vagrant haltで仮想環境を終了させる。
-				
-	Virtualbox:
-		https://www.virtualbox.org/wiki/Downloads
+Ghidraをインストールすること。
 
 	Ghidra: 最新のversionのものでよい。
 		https://ghidra-sre.org/InstallationGuide.html#Install
 		必ずjdk-11を使うこと
+
+# Guestの環境構築
+## WSLを使った環境構築
+Windowsを使っている人のみWSLを使うことができる。
 
 [ubuntu18.04]　併記のコマンドを実行するだけでよい。git cloneを実行するカレントディレクトリは自分で決めること。
 
@@ -55,15 +47,45 @@
 		python -m pip install pwntools pathlib2
 
 
-[オプション]　　radare2に興味がなければインストールする必要はありません。
+[オプション]　　radare2に興味がなければインストールする必要はない。
 
 	radare2: デバッガ
 		git clone https://github.com/radareorg/radare2
 		cd radare2 ; sys/install.sh
 
+## Vagrantを使った環境構築
+M1 Macを使っている人はVagrantを使うことはできない。
 
-# Dockerを使った環境構築
-M1 Macを使っている人はこの方法も利用できません。ptraceがサポートされておらず、gdbを使えないので。Windows用には作っていません。
+[host]　Vagrant,Virtualboxをそれぞれインストールすること。
+
+	Vagrant: generic/ubuntu1804を使う
+		https://www.vagrantup.com/downloads
+		
+	# 必要なVagrantfileを持ってくる。
+		git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+		cd sig-beginners-pwn-public
+		Vagrantfileの割り当てるcpuの数、メモリ、名前は適宜自分の環境に合わせる。
+
+	Virtualbox:
+		https://www.virtualbox.org/wiki/Downloads
+
+[vagrant] このリポジトリ内のVagrantfileを使う
+
+	# VMを起動
+		vagrant up
+		# AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。
+		# 初回はprovisionが走る
+	
+	# VM内に入る。
+		vagrant ssh
+	# VMからでる
+		Ctrl-D
+	# VMを落とす
+		vagrant halt
+		# VMから出たあとに行う
+
+## Dockerを使った環境構築
+M1 Macを使っている人はこの方法を利用できない。ptraceがサポートされておらず、gdbを使えないので。また、Dockerfile等はWindows用には作っていない。
 
 [host] Dockerとdocker-composeをインストール
 
@@ -73,7 +95,7 @@ M1 Macを使っている人はこの方法も利用できません。ptraceが�
 	docker-compose:
 		https://docs.docker.com/compose/install/
 
-[docker] このリポジトリ内のDockerfileとdocker-compose.ymlを使います。環境が立ち上がるまでに時間がかかります。
+[docker] このリポジトリ内のDockerfileとdocker-compose.ymlを使います。環境が立ち上がるまでに時間がかかる。
 
 	# Docker for Macを使っている場合は、Launchpadからappを起動してdockerとdocker-composeを使えるようにする。
 	
@@ -85,7 +107,7 @@ M1 Macを使っている人はこの方法も利用できません。ptraceが�
 		./set_dotenv.sh
 		chmod 777 ./Programs
 	
-	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかります。その代わり別でaptして何かをインストールする必要はないです。再ビルドもこれ。
+	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
 		docker-compose -p pwn_ubuntu1804 build
 	
 	# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
@@ -102,11 +124,11 @@ M1 Macを使っている人はこの方法も利用できません。ptraceが�
 	# コンテナから出る
 		Ctrl-D
 	
-	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されません。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消えます。
+	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されない。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消える。
 	# エディタはvimとneovimが入っています。
 
-# Limaを使った環境構築
-M1 Macを使っている人はこちらを利用してください。ただし、Limaの下で動いているqemu-system-x86_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。
+## Limaを使った環境構築
+M1 Macを使っている人はこちらを利用すること。ただし、Limaの下で動いているqemu-system-x86_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。
 
 [host] brewとLimaとgitをインストール
 
@@ -182,7 +204,6 @@ M1 Macを使っている人はこちらを利用してください。ただし�
 
 [その他]
 
-	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを
-	作るので、最低限のvi系エディタの扱いは慣れておいてください。
-	インサートモードから出入りするコマンドと変更を保存するorしないで閉じるコマンドさえ覚えていれば十分です。
-	python3でもpwntoolsは動きますが、stringとbyte列を足し算で足せないのがそこそこ面倒なのでpython2を僕は使っています。
+	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを作るので、最低限のvi系エディタの扱いは慣れておくこと。
+	インサートモードから出入りするコマンドと変更を保存するorしないで閉じるコマンドさえ覚えていれば十分である。
+	python3でもpwntoolsは動くが、stringとbyte列を足し算で足せないのがそこそこ面倒なのでpython2を僕は使っている。
