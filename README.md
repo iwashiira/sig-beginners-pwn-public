@@ -10,7 +10,7 @@ Ghidraをインストールすること。
 		必ずjdk-11を使うこと
 
 # Guestの環境構築
-## WSLを使った環境構築
+## 1. WSLを使った環境構築
 Windowsを使っている人のみWSLを使うことができる。
 
 [host]
@@ -58,7 +58,7 @@ Windowsを使っている人のみWSLを使うことができる。
 		git clone https://github.com/radareorg/radare2
 		cd radare2 ; sys/install.sh
 
-## Vagrantを使った環境構築
+## 2. Vagrantを使った環境構築
 M1 Macを使っている人はVagrantを使うことはできない。
 
 [host]　Vagrant,Virtualboxをそれぞれインストールすること。
@@ -89,7 +89,7 @@ M1 Macを使っている人はVagrantを使うことはできない。
 		vagrant halt
 		# VMから出たあとに行う
 
-## Dockerを使った環境構築
+## 3. Dockerを使った環境構築
 M1 Macを使っている人はこの方法を利用できない。ptraceがサポートされておらず、gdbを使えないので。また、Dockerfile等はWindows用には作っていない。
 
 [host] Dockerとdocker-composeをインストール
@@ -132,7 +132,7 @@ M1 Macを使っている人はこの方法を利用できない。ptraceがサ�
 	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されない。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消える。
 	# エディタはvimとneovimが入っています。
 
-## Limaを使った環境構築
+## 4. Limaを使った環境構築
 M1 Macを使っている人はこちらを利用すること。ただし、Limaの下で動いているqemu-system-x86_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。
 
 [host] brewとLimaとgitをインストール
