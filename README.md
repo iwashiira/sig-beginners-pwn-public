@@ -175,6 +175,7 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		limactl stop bionic-amd64
 
 [ubuntu18.04]　
+
 	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
 		ln -s mount_path ~/pwn/Programs 
 		# mount_pathにはマウントした絶対Pathを入力
