@@ -161,6 +161,8 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		cd sig-beginners-pwn-public
 		git pull origin main
 	
+	# ホストのディレクトリをマウントしたい人は、bionic-amd64.ymlの中のmounts部分のコメントを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+	
 	# ubuntu18.04の仮想マシンを起動
 		limactl start --tty=false bionic-amd64.yml
 	# 仮想マシンの一覧
@@ -172,40 +174,10 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 	# 仮想マシンを止める
 		limactl stop bionic-amd64
 
-[ubuntu18.04]　併記のコマンドを実行するだけでよい。git cloneを実行するカレントディレクトリは自分で決めること。
-
-	[例]
-	.
-	└── pwn
-    	├── Programs
-    	└── Tools
-        		├── peda
-        		├── Pwngdb
-        		└── radare2
-
-
-	gcc: コンパイラ
-		sudo apt update && sudo apt upgrade -y
-		sudo apt install build-essential
-
-	gdb: デバッガ	
-		sudo apt install gdb
-
-	python2:
-		sudo apt install python
-
-	peda: gdbの拡張
-		git clone https://github.com/longld/peda.git
-
-	pwngdb: pedaの拡張
-		git clone https://github.com/scwuaptx/Pwngdb.git
-        ~/.gdbinitを編集する。
-
-	pwntools: pwn用のpythonライブラリ
-		sudo apt install python-pip libssl-dev libffi-dev
-		python -m pip install pwntools pathlib2
-
-	
+[ubuntu18.04]　
+	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
+		ln -s mount_path ~/pwn/Programs 
+		# mount_pathにはマウントした絶対Pathを入力
 
 [その他]
 
