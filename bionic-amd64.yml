@@ -34,15 +34,11 @@ provision:
         sudo \
         && apt clean \
         && rm -rf /var/lib/apt/lists/*
-        echo "apt install is finished"
 
         wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
         chmod +x /usr/local/bin/rp++
-        echo "rp++ is installed"
         gem install one_gadget
-        echo "one_gadget is installed"
         python -m pip install pwntools pathlib2
-        echo "pwntools is installed"
         touch ~/.installed
     fi
 
@@ -51,16 +47,12 @@ provision:
     #!/bin/bash
     if [ ! -e ~/.installed ]; then
         wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O ~/.gdbinit
-        echo ".gdbinit is copied"
         mkdir -p ~/pwn/Tools
         cd ~/pwn/Tools
         git clone https://github.com/longld/peda.git
-        echo "peda is installed"
         git clone https://github.com/scwuaptx/Pwngdb.git
-        echo "Pwngdb is installed"
         git clone https://github.com/radareorg/radare2
         cd radare2 \
         && ./sys/install.sh
-        echo "radare2 is installed"
         touch ~/.installed
     fi
