@@ -165,6 +165,8 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 	
 	# ubuntu18.04の仮想マシンを起動
 		limactl start --tty=false bionic-amd64.yml
+		# 別のターミナルから、以下のコマンドを打てば、進行状況が分かる。
+			tail -f -n 40 ~/.lima/bionic-amd64/serial.log
 	# 仮想マシンの一覧
 		limactl list
 	# 仮想マシンの中にはいる
