@@ -161,7 +161,7 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		cd sig-beginners-pwn-public
 		git pull origin main
 	
-	# ホストのディレクトリをマウントしたい人は、bionic-amd64.ymlの中のmounts部分のコメントを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+	# ホストのディレクトリをマウントしたい人は、bionic-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
 	# ubuntu18.04の仮想マシンを作成して起動(初回)
 		limactl start --tty=false bionic-amd64.yml
