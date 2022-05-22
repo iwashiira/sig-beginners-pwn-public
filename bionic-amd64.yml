@@ -6,7 +6,6 @@ cpus: null
 memory: null
 disk: null
 
-## locationには絶対Pathを指定。
 #mounts:
 #- location: "/sig-beginners-pwn-public/Programs"
 #  writable: true
