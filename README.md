@@ -184,6 +184,12 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		ln -s mount_path ~/pwn/Programs 
 		# mount_pathにはマウントした絶対Pathを入力
 
+[localでのサーバーの建て方]
+
+	# server/challディレクトリの中の各問題のディレクトリに移動し、docker-compose up -dとコマンドを打つ
+	# lsof -iやdocker-compose ps、docker psなどのコマンドで空いているポートを確認
+	# nc localhost {port_number} でサーバーに接続できます。
+
 [その他]
 
 	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを作るので、最低限のvi系エディタの扱いは慣れておくこと。
