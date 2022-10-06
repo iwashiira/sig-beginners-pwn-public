@@ -80,8 +80,8 @@ sudo apt update && sudo apt install -y \
     && sudo apt clean \
     && sudo rm -rf /var/lib/apt/lists/*
 
-wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
-chmod +x /usr/local/bin/rp++
+sudo wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
+sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
 
@@ -90,7 +90,12 @@ python3 -m pip install pwntools pathlib2
 PWNDIR="$HOME/pwn"
 TOOLS_DIR="$PWNDIR/Tools"
 
-mkdir -p $TOOLS_DIR
+if [ ! -e $PWNDIR ]; then
+    mkdir $PWNDIR
+fi
+
+cd $PWNDIR
+mkdir $TOOLS_DIR
 cd $TOOLS_DIR
 
 git clone https://github.com/longld/peda.git
