@@ -93,9 +93,11 @@ TOOLS_DIR="$PWNDIR/Tools"
 if [ ! -e $PWNDIR ]; then
     mkdir $PWNDIR
 fi
-
 cd $PWNDIR
-mkdir $TOOLS_DIR
+
+if [ ! -e $TOOLS_DIR ]; then
+    mkdir $TOOLS_DIR
+fi
 cd $TOOLS_DIR
 
 git clone https://github.com/longld/peda.git
