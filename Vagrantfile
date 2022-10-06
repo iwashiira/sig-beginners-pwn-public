@@ -66,5 +66,5 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "file", source: "./.gdbinit", destination: "$HOME/.gdbinit"
-  config.vm.provision "shell", path: "./install.sh"
+  config.vm.provision "shell", path: "./install.sh", privileged: false
 end

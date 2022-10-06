@@ -4,6 +4,8 @@ cd $SH_PATH
 
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
+sudo apt update && sudo apt upgrade -y
+
 echo -e "\e[31m--- Pyenv installation ---\e[m"
 
 sudo apt install -y \
@@ -75,8 +77,8 @@ sudo apt update && sudo apt install -y \
     netcat \
     patchelf \
     sudo \
-    && apt clean \
-    && rm -rf /var/lib/apt/lists/*
+    && sudo apt clean \
+    && sudo rm -rf /var/lib/apt/lists/*
 
 wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
 chmod +x /usr/local/bin/rp++
