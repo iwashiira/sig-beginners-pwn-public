@@ -18,10 +18,15 @@ Windowsを使っている人のみWSLを使うことができる。
 	WSL: ubuntu18.04をインストールする
 		https://docs.microsoft.com/ja-jp/windows/wsl/install
 
-[ubuntu18.04]　併記のコマンドを実行するだけでよい。git cloneを実行するカレントディレクトリは自分で決めること。
+[ubuntu18.04]　下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
 
-	[例]
-	.
+	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+	cd ./sig-beginners-pwn-public
+	./install.sh
+
+[tree]	
+
+	/home/user
 	└── pwn
     	├── Programs
     	└── Tools
@@ -29,34 +34,6 @@ Windowsを使っている人のみWSLを使うことができる。
         		├── Pwngdb
         		└── radare2
 
-
-	gcc: コンパイラ
-		sudo apt update && sudo apt upgrade -y
-		sudo apt install build-essential
-
-	gdb: デバッガ	
-		sudo apt install gdb
-
-	python2:
-		sudo apt install python
-
-	peda: gdbの拡張
-		git clone https://github.com/longld/peda.git
-
-	pwngdb: pedaの拡張
-		git clone https://github.com/scwuaptx/Pwngdb.git
-        ~/.gdbinitを編集する。
-
-	pwntools: pwn用のpythonライブラリ
-		sudo apt install python-pip libssl-dev libffi-dev
-		python -m pip install pwntools pathlib2
-
-
-[オプション]　　radare2に興味がなければインストールする必要はない。
-
-	radare2: デバッガ
-		git clone https://github.com/radareorg/radare2
-		cd radare2 ; sys/install.sh
 
 ## 2. Vagrantを使った環境構築
 M1 Macを使っている人はVagrantを使うことはできない。
