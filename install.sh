@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
