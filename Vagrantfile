@@ -66,39 +66,7 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "file", source: "./.gdbinit", destination: "$HOME/.gdbinit"
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo apt update && sudo apt install -y \
-    build-essential \
-    gdb \
-    python \
-    ruby-full \
-    python-pip \
-    libssl-dev \
-    libffi-dev \
-    neovim \
-    vim \
-    curl \
-    wget \
-    pkg-config \
-    git \
-    netcat \
-    patchelf \
-    sudo \
-    && apt clean \
-    && rm -rf /var/lib/apt/lists/*
-
-    wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
-    chmod +x /usr/local/bin/rp++
-    gem install one_gadget
-    python -m pip install pwntools pathlib2
-
-    mkdir /home/vagrant/pwn/Tools
-    cd /home/vagrant/pwn/Tools
-    git clone https://github.com/longld/peda.git
-    git clone https://github.com/scwuaptx/Pwngdb.git
-    git clone https://github.com/radareorg/radare2
-    chown -R vagrant:vagrant /home/vagrant/pwn
-    cd radare2 \
-    && sudo -u vagrant -H ./sys/install.sh
-  SHELL
+  config.vm.provision "file", source: "./.bashrc", destination: "$HOME/.bashrc"
+  config.vm.provision "shell", inline: "chown -R vagrant:vagrant /home/vagrant/pwn"
+  config.vm.provision "shell", path: "./install.sh", privileged: false
 end
