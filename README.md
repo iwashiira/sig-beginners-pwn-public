@@ -163,6 +163,10 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 
 [localでのサーバーの建て方]
 
+	# dockerデーモンが起動しているか確認
+		sudo service docker status
+		# 起動していない場合は
+			sudo service docker start
 	# server/challディレクトリの中の各問題のディレクトリに移動し、docker-compose up -dとコマンドを打つ
 	# lsof -iやdocker-compose ps、docker psなどのコマンドで空いているポートを確認
 	# nc localhost {port_number} でサーバーに接続できます。
