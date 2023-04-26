@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade -y
 
 echo -e "\e[31m--- Pyenv installation ---\e[m"
 
-sudo apt install -y \
+sudo apt update && sudo apt install -y \
     build-essential \
     ca-certificates \
     libssl-dev \
