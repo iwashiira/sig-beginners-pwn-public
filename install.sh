@@ -97,10 +97,7 @@ sudo apt update && sudo apt install -y \
 
 
 
-RP_VER=$(curl --silent "https://api.github.com/repos/0vercl0k/rp/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-sudo wget https://github.com/0vercl0k/rp/releases/download/${RP_VER}/rp-lin-gcc.zip -O /tmp/rp-lin-gcc.zip
-sudo unzip /tmp/rp-lin-gcc.zip -d /usr/local/bin
-sudo mv /usr/local/bin/rp-lin /usr/local/bin/rp++
+sudo wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
 sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
