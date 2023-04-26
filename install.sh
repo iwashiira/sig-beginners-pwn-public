@@ -93,8 +93,6 @@ sudo apt update && sudo apt install -y \
     && sudo apt clean \
     && sudo rm -rf /var/lib/apt/lists/*
 
-sudo wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
-sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
 
@@ -113,6 +111,8 @@ if [ ! -e $TOOLS_DIR ]; then
 fi
 cd $TOOLS_DIR
 
+git clone https://github.com/0vercl0k/rp.git
+chmod u+x ./rp/src/build/build-release.sh && ./rp/src/build/build-release.sh
 git clone https://github.com/longld/peda.git
 git clone https://github.com/scwuaptx/Pwngdb.git
 git clone https://github.com/radareorg/radare2
