@@ -21,6 +21,7 @@ sudo apt update && sudo apt install -y \
     wget \
     curl \
     llvm \
+    make \
     libncurses5-dev \
     libncursesw5-dev \
     xz-utils \
@@ -36,7 +37,7 @@ sudo apt update && sudo apt install -y \
     gcc \
     tree \
     git \
-    libyaml-dev
+    libyaml-dev \
 
 if [ -e $HOME/.pyenv ]; then
     sudo rm -r $HOME/.pyenv
