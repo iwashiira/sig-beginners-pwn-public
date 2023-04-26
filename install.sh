@@ -10,6 +10,7 @@ echo -e "\e[31m--- Pyenv installation ---\e[m"
 
 sudo apt install -y \
     build-essential \
+    ca-certificates \
     libssl-dev \
     zlib1g-dev \
     libbz2-dev \
@@ -24,8 +25,11 @@ sudo apt install -y \
     tk-dev \
     libffi-dev \
     liblzma-dev \
+    python3 \
+    python3-pip \
     python-openssl \
     gcc \
+    tree \
     git
 
 if [ -e $HOME/.pyenv ]; then
