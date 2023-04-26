@@ -22,6 +22,8 @@ sudo apt update && sudo apt install -y \
     curl \
     llvm \
     make \
+    zip \
+    unzip \
     libncurses5-dev \
     libncursesw5-dev \
     xz-utils \
@@ -94,6 +96,13 @@ sudo apt update && sudo apt install -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
 
+
+RP_VER=$(curl --silent "https://api.github.com/repos/0vercl0k/rp/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+sudo wget https://github.com/0vercl0k/rp/releases/download/${RP_VER}/rp-lin-gcc.zip -O /tmp/rp-lin-gcc.zip
+sudo unzip /tmp/rp-lin-gcc.zip -d /usr/local/bin
+sudo mv /usr/local/bin/rp-lin /usr/local/bin/rp++
+sudo chmod +x /usr/local/bin/rp++
+
 gem install one_gadget
 
 python3 -m pip install pwntools pathlib2
@@ -111,10 +120,6 @@ if [ ! -e $TOOLS_DIR ]; then
 fi
 cd $TOOLS_DIR
 
-git clone https://github.com/Kitware/CMake.git
-./CMake/bootstrap && make && sudo make install
-git clone https://github.com/0vercl0k/rp.git
-chmod u+x ./rp/src/build/build-release.sh && ./rp/src/build/build-release.sh
 git clone https://github.com/longld/peda.git
 git clone https://github.com/scwuaptx/Pwngdb.git
 git clone https://github.com/radareorg/radare2
