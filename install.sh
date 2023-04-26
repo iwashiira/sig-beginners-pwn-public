@@ -25,6 +25,7 @@ sudo apt install -y \
     libffi-dev \
     liblzma-dev \
     python-openssl \
+    gcc \
     git
 
 if [ -e $HOME/.pyenv ]; then
