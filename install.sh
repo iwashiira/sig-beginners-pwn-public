@@ -35,7 +35,7 @@ git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
 PYENV_ROOT="$HOME/.pyenv"
 PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
-pyenv install 3:latest
+pyenv install 3.11:latest
 PY3_VER=$(pyenv whence 2to3 | grep 3.*)
 pyenv global $PY3_VER
 
