@@ -111,6 +111,8 @@ if [ ! -e $TOOLS_DIR ]; then
 fi
 cd $TOOLS_DIR
 
+git clone https://github.com/Kitware/CMake.git
+./CMake/bootstrap && make && sudo make install
 git clone https://github.com/0vercl0k/rp.git
 chmod u+x ./rp/src/build/build-release.sh && ./rp/src/build/build-release.sh
 git clone https://github.com/longld/peda.git
