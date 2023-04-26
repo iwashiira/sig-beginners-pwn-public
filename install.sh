@@ -25,13 +25,14 @@ sudo apt install -y \
     tk-dev \
     libffi-dev \
     liblzma-dev \
-    libyaml \
+    libyaml-dev \
     python3 \
     python3-pip \
     python-openssl \
     gcc \
     tree \
-    git
+    git \
+    libyaml-dev
 
 if [ -e $HOME/.pyenv ]; then
     sudo rm -r $HOME/.pyenv
