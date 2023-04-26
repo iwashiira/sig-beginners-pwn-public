@@ -2,6 +2,8 @@
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
+sudo cp ./.bashrc $HOME
+
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
 sudo apt update && sudo apt upgrade -y
