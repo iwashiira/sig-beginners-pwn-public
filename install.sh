@@ -25,6 +25,7 @@ sudo apt install -y \
     tk-dev \
     libffi-dev \
     liblzma-dev \
+    libyaml \
     python3 \
     python3-pip \
     python-openssl \
