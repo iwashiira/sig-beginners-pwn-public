@@ -25,6 +25,8 @@ sudo apt install -y \
     libncursesw5-dev \
     xz-utils \
     tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
     libffi-dev \
     liblzma-dev \
     libyaml-dev \
