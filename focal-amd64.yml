@@ -18,8 +18,12 @@ provision:
         sudo apt update && sudo apt install -y \
         build-essential \
         curl \
+        gcc \
         gdb \
         git \
+        make \
+        zip \
+        unzip \
         libbz2-dev \
         libffi-dev \
         liblzma-dev \
@@ -35,15 +39,17 @@ provision:
         pkg-config \
         python-openssl \
         sudo \
+        tree \
         tk-dev \
         vim \
         wget \
         xz-utils \
+        libyaml-dev \
         zlib1g-dev \
         && sudo apt clean \
         && sudo rm -rf /var/lib/apt/lists/*
 
-        wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
+        wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
         chmod +x /usr/local/bin/rp++
         touch ~/.installed
     fi
