@@ -1,6 +1,6 @@
 arch: "x86_64"
 images:
-- location: "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+- location: "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
   arch: "x86_64"
 cpus: null
 memory: null
@@ -18,8 +18,12 @@ provision:
         sudo apt update && sudo apt install -y \
         build-essential \
         curl \
+        gcc \
         gdb \
         git \
+        make \
+        zip \
+        unzip \
         libbz2-dev \
         libffi-dev \
         liblzma-dev \
@@ -33,17 +37,18 @@ provision:
         netcat \
         patchelf \
         pkg-config \
-        python-openssl \
         sudo \
+        tree \
         tk-dev \
         vim \
         wget \
         xz-utils \
+        libyaml-dev \
         zlib1g-dev \
         && sudo apt clean \
         && sudo rm -rf /var/lib/apt/lists/*
 
-        wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
+        wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
         chmod +x /usr/local/bin/rp++
         touch ~/.installed
     fi
@@ -60,7 +65,7 @@ provision:
         PYENV_ROOT="$HOME/.pyenv"
         PATH="$PYENV_ROOT/bin:$PATH"
         eval "$(pyenv init --path)"
-        pyenv install 3:latest
+        pyenv install 3.11:latest
         PY3_VER=$(pyenv whence 2to3 | grep 3.*)
         pyenv global $PY3_VER
 

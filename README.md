@@ -15,10 +15,10 @@ Windowsを使っている人のみWSLを使うことができる。
 
 [host]
 
-	WSL: ubuntu18.04をインストールする
+	WSL: ubuntu20.04をインストールする
 		https://docs.microsoft.com/ja-jp/windows/wsl/install
 
-[ubuntu18.04]　下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
+[ubuntu20.04]　下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
 
 	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
 	cd ./sig-beginners-pwn-public
@@ -40,7 +40,7 @@ M1 Macを使っている人はVagrantを使うことはできない。
 
 [host]　Vagrant,Virtualboxをそれぞれインストールすること。
 
-	Vagrant: generic/ubuntu1804を使う
+	Vagrant: generic/ubuntu2004を使う
 		https://www.vagrantup.com/downloads
 		
 	# 必要なVagrantfileを持ってくる。
@@ -89,8 +89,8 @@ M1 Macを使っている人はこの方法を利用できない。ptraceがサ�
 		./set_dotenv.sh
 		chmod 777 ./Programs
 	
-	# dockerのコンテナを作る。pwn_ubuntu1804は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
-		docker-compose -p pwn_ubuntu1804 build
+	# dockerのコンテナを作る。pwn_ubuntu2004は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
+		docker-compose -p pwn_ubuntu2004 build
 	
 	# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 	# コンテナの実行
@@ -100,9 +100,9 @@ M1 Macを使っている人はこの方法を利用できない。ptraceがサ�
 	# コンテナ名の確認、実行状態の確認。
 		docker-compose ps
 	# コンテナ内に入る
-		docker exec -it sig-beginners-pwn-public_pwn_ubuntu1804_1 /bin/bash
+		docker exec -it sig-beginners-pwn-public_pwn_ubuntu2004_1 /bin/bash
 		# または
-		docker-compose exec pwn_ubuntu1804 bash
+		docker-compose exec pwn_ubuntu2004 bash
 	# コンテナから出る
 		Ctrl-D
 	
@@ -138,24 +138,24 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		cd sig-beginners-pwn-public
 		git pull origin main
 	
-	# ホストのディレクトリをマウントしたい人は、bionic-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+	# ホストのディレクトリをマウントしたい人は、focal-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
-	# ubuntu18.04の仮想マシンを作成して起動(初回)
-		limactl start --tty=false bionic-amd64.yml
+	# ubuntu20.04の仮想マシンを作成して起動(初回)
+		limactl start --tty=false focal-amd64.yml
 		# 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
-			tail -f -n 40 ~/.lima/bionic-amd64/serial.log
+			tail -f -n 40 ~/.lima/focal-amd64/serial.log
 	# 仮想マシンの起動
-		limactl start --tty=false bionic-amd64
+		limactl start --tty=false focal-amd64
 	# 仮想マシンの一覧
 		limactl list
 	# 仮想マシンの中にはいる
-		limactl shell bionic-amd64
+		limactl shell focal-amd64
 	# 仮想マシンから出る
 		Ctrl-D
 	# 仮想マシンを止める
-		limactl stop bionic-amd64
+		limactl stop focal-amd64
 
-[ubuntu18.04]　
+[ubuntu20.04]　
 
 	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
 		ln -s mount_path ~/pwn/Programs 

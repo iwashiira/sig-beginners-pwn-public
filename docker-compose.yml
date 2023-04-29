@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-    pwn_ubuntu1804:
+    pwn_ubuntu2004:
         build:
             context: .
             args:

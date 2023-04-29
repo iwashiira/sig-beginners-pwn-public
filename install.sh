@@ -2,14 +2,17 @@
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
+sudo cp ./.bashrc $HOME
+
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
 sudo apt update && sudo apt upgrade -y
 
 echo -e "\e[31m--- Pyenv installation ---\e[m"
 
-sudo apt install -y \
+sudo apt update && sudo apt install -y \
     build-essential \
+    ca-certificates \
     libssl-dev \
     zlib1g-dev \
     libbz2-dev \
@@ -18,14 +21,25 @@ sudo apt install -y \
     wget \
     curl \
     llvm \
+    make \
+    zip \
+    unzip \
     libncurses5-dev \
     libncursesw5-dev \
     xz-utils \
     tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
     libffi-dev \
     liblzma-dev \
-    python-openssl \
-    git
+    libyaml-dev \
+    python3 \
+    python3-dev \
+    python3-pip \
+    gcc \
+    tree \
+    git \
+    libyaml-dev \
 
 if [ -e $HOME/.pyenv ]; then
     sudo rm -r $HOME/.pyenv
@@ -35,7 +49,7 @@ git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
 PYENV_ROOT="$HOME/.pyenv"
 PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
-pyenv install 3:latest
+pyenv install 3.11:latest
 PY3_VER=$(pyenv whence 2to3 | grep 3.*)
 pyenv global $PY3_VER
 
@@ -80,7 +94,9 @@ sudo apt update && sudo apt install -y \
     && sudo apt clean \
     && sudo rm -rf /var/lib/apt/lists/*
 
-sudo wget https://github.com/downloads/0vercl0k/rp/rp-lin-x64 -O /usr/local/bin/rp++
+
+
+sudo wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
 sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
