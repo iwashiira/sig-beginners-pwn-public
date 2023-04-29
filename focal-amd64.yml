@@ -37,7 +37,6 @@ provision:
         netcat \
         patchelf \
         pkg-config \
-        python-openssl \
         sudo \
         tree \
         tk-dev \
