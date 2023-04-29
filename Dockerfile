@@ -14,9 +14,9 @@ USER $USERNAME
 
 WORKDIR /home/$USERNAME
 COPY .bashrc ./.bashrc
-RUN chown -R $UID:$GID ./.bashrc
+RUN sudo chown -R $UID:$GID ./.bashrc
 COPY .gdbinit ./.gdbinit
-RUN chown -R $UID:$GID ./.gdbinit
+RUN sudo chown -R $UID:$GID ./.gdbinit
 RUN mkdir -p ./pwn/Tools
 COPY ./Programs ./pwn/Programs
 RUN sudo chmod 777 ./pwn/Programs
