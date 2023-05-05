@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:18.04
+FROM amd64/ubuntu:20.04
 
 
 RUN apt-get update && \
@@ -9,7 +9,6 @@ RUN apt-get update && \
 
 RUN groupadd -r user && useradd -r -g user user
 
-COPY --chown=root:root ./build/libc-2.27.so /lib/x86_64-linux-gnu/libc-2.27.so
 COPY --chown=root:user ./build/start.sh /home/user/start.sh
 COPY --chown=root:user ./build/flag /home/user/flag
 COPY --chown=root:user ./dist/fsb /home/user/fsb
