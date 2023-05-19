@@ -102,7 +102,7 @@ sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
 
-python3 -m pip install pwntools pathlib2
+python3 -m pip install pwntools pathlib2 ptrlib
 
 PWNDIR="$HOME/pwn"
 TOOLS_DIR="$PWNDIR/Tools"
