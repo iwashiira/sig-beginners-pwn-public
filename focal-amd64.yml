@@ -70,7 +70,7 @@ provision:
         pyenv global $PY3_VER
 
         python3 -m pip install -U pip
-        python3 -m pip install pwntools pathlib2
+        python3 -m pip install pwntools pathlib2 ptrlib
 
         git clone https://github.com/rbenv/rbenv.git $HOME/.rbenv
         git clone https://github.com/rbenv/ruby-build.git $HOME/.rbenv/plugins/ruby-build
