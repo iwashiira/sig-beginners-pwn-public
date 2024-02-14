@@ -119,14 +119,14 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 	# .zshrcを作っていない人は作成
 		touch ~/.zshrc
 	# .zshrcにbrewのPathを通す
-	# vimで~/.zshrcファイルを開く
-		vim ~/.zshrc
-	# iと打ってinsertモードに入り、以下の一行を追記
-		export PATH=$PATH:/opt/homebrew
-	# ESCでinsertモードから抜け、:wqと打って変更を保存
-		source ~/.zshrc
-	# brewが入っていることを確認
-		brew help
+		# vimで~/.zshrcファイルを開く
+			vim ~/.zshrc
+		# iと打ってinsertモードに入り、以下の一行を追記
+			export PATH=$PATH:/opt/homebrew
+		# ESCでinsertモードから抜け、:wqと打って変更を保存
+			source ~/.zshrc
+		# brewが入っていることを確認
+			brew help
 	
 	Limaとgitのインストール
 		brew install lima git

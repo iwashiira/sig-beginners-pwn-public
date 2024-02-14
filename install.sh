@@ -7,11 +7,11 @@ sudo cp ./.bashrc $HOME
 
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
-sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
 echo -e "\e[31m--- Pyenv installation ---\e[m"
 
-sudo apt update && sudo apt install -y \
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     build-essential \
     ca-certificates \
     libssl-dev \

@@ -1,6 +1,6 @@
 arch: "x86_64"
 images:
-- location: "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
+- location: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
   arch: "x86_64"
 cpus: null
 memory: null
@@ -15,7 +15,7 @@ provision:
   script: |
     #!/bin/bash
     if [ ! -e ~/.installed ]; then
-        sudo apt update && sudo apt install -y \
+        sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
         build-essential \
         curl \
         gcc \
