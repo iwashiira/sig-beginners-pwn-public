@@ -1,3 +1,11 @@
+define gef
+    source /root/.gdbinit-gef.py
+end
+
+define pwndbg
+    source ~/pwn/Tools/pwndbg/gdbinit.py
+end
+
 define pwngdb
     source ~/pwn/Tools/peda/peda.py
     source ~/pwn/Tools/Pwngdb/pwngdb.py
