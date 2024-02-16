@@ -49,8 +49,12 @@ provision:
         && sudo rm -rf /var/lib/apt/lists/*
 
         wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O ~/.gdbinit
-        wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-x64 -O /usr/local/bin/rp++
-        chmod +x /usr/local/bin/rp++
+        sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
+        unzip /tmp/rp++.zip
+        sudo cp /tmp/rp-lin /usr/local/bin/rp++
+        sudo chmod +x /usr/local/bin/rp++
+        wget -q https://raw.githubusercontent.com/bata24/gef/dev/install.sh -O- | DEBIAN_FRONTEND=noninteractive sh
+        mkdir /root/pwn
         touch ~/.installed
     fi
 
@@ -88,8 +92,8 @@ provision:
         git clone https://github.com/scwuaptx/Pwngdb.git
         git clone https://github.com/pwndbg/pwndbg
         cd pwndbg \
-        && ./setup.sh
-        cd ~pwn/Tools
+        && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
+        cd ~/pwn/Tools
         git clone https://github.com/radareorg/radare2
         cd radare2 \
         && ./sys/install.sh
