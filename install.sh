@@ -3,6 +3,7 @@ SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
 sudo cp ./.gdbinit $HOME
+sudo cp $HOME/.gdbinit /root
 sudo cp ./.bashrc $HOME
 
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
@@ -97,7 +98,9 @@ sudo apt update && sudo apt install -y \
 
 
 
-sudo wget https://github.com/0vercl0k/rp/releases/download/v2.0.2/rp-lin-x64 -O /usr/local/bin/rp++
+sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
+unzip /tmp/rp++.zip
+sudo cp /tmp/rp-lin /usr/local/bin/rp++
 sudo chmod +x /usr/local/bin/rp++
 
 gem install one_gadget
@@ -119,7 +122,14 @@ cd $TOOLS_DIR
 
 git clone https://github.com/longld/peda.git
 git clone https://github.com/scwuaptx/Pwngdb.git
+git clone https://github.com/pwndbg/pwndbg
 git clone https://github.com/radareorg/radare2
+cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
 cd $TOOLS_DIR/radare2 && ./sys/install.sh
+
+wget -q https://raw.githubusercontent.com/bata24/gef/dev/install.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
+
+sudo mkdir /root/pwn
+sudo ln -s $TOOLS_DIR /root/pwn/Tools
 
 echo -e "\e[34m--- Pwnable Tools installation successfully ended ---\e[m"
