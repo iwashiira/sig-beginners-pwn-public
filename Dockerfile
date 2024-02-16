@@ -16,6 +16,7 @@ WORKDIR /home/$USERNAME
 COPY .bashrc ./.bashrc
 RUN sudo chown -R $UID:$GID ./.bashrc
 COPY .gdbinit ./.gdbinit
+COPY .gdbinit /root/.gdbinit
 RUN sudo chown -R $UID:$GID ./.gdbinit
 RUN mkdir -p ./pwn/Tools
 COPY ./Programs ./pwn/Programs
