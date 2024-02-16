@@ -26,12 +26,21 @@ Windowsを使っている人のみWSLを使うことができる。
 
 [tree]	
 
+	/root
+ 	├── .gdbinit
+  	├── .gdbinit-gef.py
+ 	└── pwn
+  		└── Tools -> /home/user/pwn/Tools
+  
 	/home/user
+  	├── .bashrc
+   	├── .gdbinit
 	└── pwn
-    	├── Programs
+     	└──Programs
     	└── Tools
         		├── peda
         		├── Pwngdb
+	  		├── pwndbg
         		└── radare2
 
 
