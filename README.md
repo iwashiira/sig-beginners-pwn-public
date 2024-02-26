@@ -119,7 +119,7 @@ M1 Macを使っている人はこの方法を利用できない。ptraceがサ�
 	# エディタはvimとneovimが入っています。
 
 ## 4. Limaを使った環境構築
-M1 Macを使っている人はこちらを利用すること。ただし、Limaの下で動いているqemu-system-x86\_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。
+M1 Macを使っている人はこちらを利用すること。~~ただし、Limaの下で動いているqemu-system-x86\_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。~~ alignment違反で落ちるように修正されているかも。
 
 [host] brewとLimaとgitをインストール
 
@@ -147,7 +147,7 @@ M1 Macを使っている人はこちらを利用すること。ただし、Lima�
 		cd sig-beginners-pwn-public
 		git pull origin main
 	
-	# ホストのディレクトリをマウントしたい人は、focal-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+	# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
 	# ubuntu22.04の仮想マシンを作成して起動(初回)
 		limactl start --tty=false jammy-amd64.yml
