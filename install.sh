@@ -99,7 +99,7 @@ sudo apt update && sudo apt install -y \
 
 
 sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
-unzip /tmp/rp++.zip
+unzip /tmp/rp++.zip -d /tmp
 sudo cp /tmp/rp-lin /usr/local/bin/rp++
 sudo chmod +x /usr/local/bin/rp++
 
