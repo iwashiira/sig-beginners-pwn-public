@@ -55,6 +55,7 @@ provision:
         sudo chmod +x /usr/local/bin/rp++
         wget -q https://raw.githubusercontent.com/bata24/gef/dev/install.sh -O- | DEBIAN_FRONTEND=noninteractive sh
         mkdir /root/pwn
+        sudo ln -s $HOME/pwn/Tools /root/pwn/Tools
         touch ~/.installed
     fi
 
