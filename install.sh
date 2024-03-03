@@ -79,6 +79,12 @@ rbenv global $RUBY_VER
 
 echo -e "\e[34m--- Rbenv installation successfully ended ---\e[m"
 
+echo -e "\e[31m--- Cargo installation ---\e[m"
+
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+echo -e "\e[34m--- Cargo installation successfully ended ---\e[m"
+
 sudo apt update && sudo apt install -y \
     build-essential \
     gdb \
@@ -103,9 +109,11 @@ unzip /tmp/rp++.zip
 sudo cp /tmp/rp-lin /usr/local/bin/rp++
 sudo chmod +x /usr/local/bin/rp++
 
+python3 -m pip install pwntools pathlib2 ptrlib
+
 gem install one_gadget
 
-python3 -m pip install pwntools pathlib2 ptrlib
+cargo install ropr
 
 PWNDIR="$HOME/pwn"
 TOOLS_DIR="$PWNDIR/Tools"

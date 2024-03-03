@@ -87,6 +87,11 @@ provision:
         rbenv global $RUBY_VER
 
         gem install one_gadget
+
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+        cargo install ropr
+
         mkdir -p ~/pwn/Tools
         cd ~/pwn/Tools
         git clone https://github.com/longld/peda.git
