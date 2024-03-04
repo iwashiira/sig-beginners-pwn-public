@@ -17,6 +17,8 @@ COPY .bashrc ./.bashrc
 RUN sudo chown -R $UID:$GID ./.bashrc
 COPY .gdbinit ./.gdbinit
 COPY .gdbinit /root/.gdbinit
+COPY manage_aslr.sh /usr/local/bin/aslr
+RUN sudo chmod +x /usr/local/bin/aslr
 RUN sudo chown -R $UID:$GID ./.gdbinit
 RUN mkdir -p ./pwn/Tools
 COPY ./Programs ./pwn/Programs
