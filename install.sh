@@ -5,6 +5,8 @@ cd $SH_PATH
 sudo cp ./.gdbinit $HOME
 sudo cp $HOME/.gdbinit /root
 sudo cp ./.bashrc $HOME
+sudo cp ./manage_aslr.sh /usr/local/bin/aslr
+sudo chmod +x /usr/local/bin/aslr
 
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 

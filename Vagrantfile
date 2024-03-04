@@ -67,6 +67,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "file", source: "./.gdbinit", destination: "$HOME/.gdbinit"
   config.vm.provision "file", source: "./.bashrc", destination: "$HOME/.bashrc"
+  config.vm.provision "file", source: "./manage_aslr.sh", destination: "/usr/local/bin/aslr"
   config.vm.provision "shell", inline: "chown -R vagrant:vagrant /home/vagrant/pwn"
   config.vm.provision "shell", path: "./install.sh", privileged: false
 end
