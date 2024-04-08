@@ -33,7 +33,6 @@ provision:
         libssl-dev \
         libreadline-dev \
         llvm \
-        neovim \
         netcat \
         patchelf \
         pkg-config \
@@ -68,6 +67,12 @@ provision:
         wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O ~/.gdbinit
         wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.bashrc -O ~/.bashrc
 
+        wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -O /tmp/nvim-linux64.tar.gz
+        tar xzf /tmp/nvim-linux64.tar.gz -C /tmp
+        sudo cp /tmp/nvim-linux64/bin/nvim /usr/bin
+        sudo cp -r /tmp/nvim-linux64/share/nvim /usr/share
+        rm /tmp/nvim-linux64.tar.gz
+        rm -r /tmp/nvim-linux64
 
         git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
         PYENV_ROOT="$HOME/.pyenv"
@@ -91,6 +96,7 @@ provision:
         gem install one_gadget
 
         curl https://sh.rustup.rs -sSf | sh -s -- -y
+        source "$HOME/.cargo/env"
 
         cargo install ropr
 
