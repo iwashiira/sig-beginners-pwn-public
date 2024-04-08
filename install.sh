@@ -91,6 +91,7 @@ echo -e "\e[34m--- Rbenv installation successfully ended ---\e[m"
 echo -e "\e[31m--- Cargo installation ---\e[m"
 
 curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
 
 echo -e "\e[34m--- Cargo installation successfully ended ---\e[m"
 
