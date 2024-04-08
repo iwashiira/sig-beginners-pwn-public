@@ -2,11 +2,18 @@
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
-sudo cp ./.gdbinit $HOME
+wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O $HOME/.gdbinit
 sudo cp $HOME/.gdbinit /root
-sudo cp ./.bashrc $HOME
-sudo cp ./manage_aslr.sh /usr/local/bin/aslr
+wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.bashrc -O $HOME/.bashrc
+sudo wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/manage_aslr.sh -O /usr/local/bin/aslr
 sudo chmod +x /usr/local/bin/aslr
+
+wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz /tmp/nvim-linux64.tar.gz
+tar xzf /tmp/nvim-linux64.tar.gz /tmp/nvim-linux64/bin/nvim /tmp/nvim-linux64/share/nvim
+sudo cp /tmp/nvim-linux64/bin/nvim /usr/bin
+sudo cp -r /tmp/nvim-linux64/share/nvim /usr/share
+rm /tmp/nvim-linux64.tar.gz
+rm -r /tmp/nvim-linux64
 
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
@@ -92,7 +99,6 @@ sudo apt update && sudo apt install -y \
     gdb \
     libssl-dev \
     libffi-dev \
-    neovim \
     vim \
     curl \
     wget \
