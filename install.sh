@@ -8,8 +8,8 @@ wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.
 sudo wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/manage_aslr.sh -O /usr/local/bin/aslr
 sudo chmod +x /usr/local/bin/aslr
 
-wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz /tmp/nvim-linux64.tar.gz
-tar xzf /tmp/nvim-linux64.tar.gz /tmp/nvim-linux64/bin/nvim /tmp/nvim-linux64/share/nvim
+wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -O /tmp/nvim-linux64.tar.gz
+tar xzf /tmp/nvim-linux64.tar.gz -C /tmp
 sudo cp /tmp/nvim-linux64/bin/nvim /usr/bin
 sudo cp -r /tmp/nvim-linux64/share/nvim /usr/share
 rm /tmp/nvim-linux64.tar.gz
