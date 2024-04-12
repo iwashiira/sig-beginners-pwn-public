@@ -177,6 +177,21 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 		ln -s mount_path ~/pwn/Programs
 		# mount_pathにはマウントした絶対Pathを入力
 
+[gdbの拡張の使い方]
+
+	# gdbを起動 (bata24/gefを使いたい場合はsudo必須)
+ 	sudo gdb --args file1 file2
+  	# gdbを起動 (例えばchallというバイナリを動かしているプロセスにattach)
+   	sudo gdb -p $(pidof chall)
+	# 拡張を使う (起動後のgdbのシェルにコマンドを入力)
+ 	- gefを使う
+  		(gdb) gef
+  	- pwndbgを使う
+   		(gdb) dbg
+   	- pwngdbを使う
+    	(gdb) pwngdb
+
+
 [localでのサーバーの建て方]
 
 	# dockerデーモンが起動しているか確認
