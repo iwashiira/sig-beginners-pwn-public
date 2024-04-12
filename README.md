@@ -146,7 +146,8 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 		# 既にcloneしていた人は中身を更新
 		cd sig-beginners-pwn-public
 		git pull origin main
-	
+
+ 	# cpuやmemoryなどを指定したい人は、jammy-amd64.ymlの中の対応するエントリをnullから変更する
 	# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
 	# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
@@ -163,6 +164,8 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 		Ctrl-D
 	# 仮想マシンを止める
 		limactl stop jammy-amd64
+  
+色々変更したい場合は[default.yml](https://github.com/lima-vm/lima/blob/master/examples/default.yaml)を参照のこと
 
 ## 全てのコマンドがinstallされているか確認する
 	wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
