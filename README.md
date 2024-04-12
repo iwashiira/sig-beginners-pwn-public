@@ -164,11 +164,12 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 	# 仮想マシンを止める
 		limactl stop jammy-amd64
 
+## 全てのコマンドがinstallされているか確認する
+	wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
+	chmod +x ./command_chk.sh && ./command_chk.sh
+
 [ubuntu22.04]　
 
-	# *全てのコマンドがinstallされているか確認する*
-		wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
-		chmod +x ./command_chk.sh && ./command_chk.sh
 	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
 		ln -s mount_path ~/pwn/Programs
 		# mount_pathにはマウントした絶対Pathを入力
