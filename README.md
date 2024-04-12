@@ -149,8 +149,8 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 	
 	# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
-	# ubuntu22.04の仮想マシンを作成して起動(初回)
-		limactl start --tty=false jammy-amd64.yml
+	# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
+		limactl start --tty=false --timeout 60m0s jammy-amd64.yml
 		# 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
 			tail -f -n 40 ~/.lima/jammy-amd64/serial.log
 	# 仮想マシンの起動
@@ -166,8 +166,11 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 
 [ubuntu22.04]　
 
+	# *全てのコマンドがinstallされているか確認する*
+		wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
+		chmod +x ./command_chk.sh && ./command_chk.sh
 	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
-		ln -s mount_path ~/pwn/Programs 
+		ln -s mount_path ~/pwn/Programs
 		# mount_pathにはマウントした絶対Pathを入力
 
 [localでのサーバーの建て方]
