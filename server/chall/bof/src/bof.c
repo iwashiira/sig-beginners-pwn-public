@@ -4,8 +4,9 @@
 int main()
 {
 	char buf[30];
+	setvbuf(stdout, (char*) NULL, _IONBF, 0);
 	printf("System() Address is %p\n", system);
-	puts("> ");
+	printf("> ");
 	scanf("%s", buf);
 	puts(buf);
 	return 0;

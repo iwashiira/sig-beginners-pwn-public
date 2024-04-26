@@ -10,9 +10,10 @@ void call_shell()
 int main()
 {
 	void **pointer;
-	printf("Address is ");
+	setvbuf(stdout, (char*) NULL, _IONBF, 0);
+	printf("Address is > ");
 	scanf("%p", &pointer);
-	printf("Value is ");
+	printf("Value is > ");
 	scanf("%p", pointer);
 	puts("Missed GOT overwrite....");
 	return 0;
