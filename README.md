@@ -37,22 +37,22 @@ cd ./sig-beginners-pwn-public
 
 [tree]	
 ```bash
-	/root
- 	├── .gdbinit
-  	├── .gdbinit-gef.py
- 	└── pwn
-  		└── Tools -> /home/user/pwn/Tools
-  
-	/home/user
-  	├── .bashrc
-   	├── .gdbinit
-	└── pwn
-     	└──Programs
-    	└── Tools
-        		├── peda
-        		├── Pwngdb
-				├── pwndbg
-        		└── radare2
+/root
+├── .gdbinit
+├── .gdbinit-gef.py
+└── pwn
+	└── Tools -> /home/user/pwn/Tools
+
+/home/user
+├── .bashrc
+├── .gdbinit
+└── pwn
+	└──Programs
+	└── Tools
+    		├── peda
+    		├── Pwngdb
+			├── pwndbg
+    		└── radare2
 ```
 
 ## 2. Vagrantを使った環境構築
@@ -140,90 +140,119 @@ Ctrl-D
 ```
 
 ## 4. Limaを使った環境構築
-M1 Macを使っている人はこちらを利用すること。~~ただし、Limaの下で動いているqemu-system-x86\_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。~~ alignment違反で落ちるように修正されているかも。
+Arm Macを使っている人はこちらを利用すること。
+- ~~ただし、Limaの下で動いているqemu-system-x86\_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。~~
+  - alignment違反で落ちるように修正されているかも。
 
 [host] brewとLimaとgitをインストール
 
-	brewのインストール
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	# .zshrcを作っていない人は作成
-		touch ~/.zshrc
-	# .zshrcにbrewのPathを通す
-		# vimで~/.zshrcファイルを開く
-			vim ~/.zshrc
-		# iと打ってinsertモードに入り、以下の一行を追記
-			export PATH=$PATH:/opt/homebrew
-		# ESCでinsertモードから抜け、:wqと打って変更を保存
-			source ~/.zshrc
-		# brewが入っていることを確認
-			brew help
+```zsh
+# brewのインストール
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# .zshrcを作っていない人は作成
+touch ~/.zshrc
+# .zshrcにbrewのPathを通す
+# vimで~/.zshrcファイルを開く
+vim ~/.zshrc
+# iと打ってinsertモードに入り、以下の一行を追記
+export PATH=$PATH:/opt/homebrew
+# ESCでinsertモードから抜け、:wqと打って変更を保存
+source ~/.zshrc
+# brewが入っていることを確認
+brew help
 	
-	Limaとgitのインストール
-		brew install lima git
+# Limaとgitのインストール
+brew install lima git
 	
-	# 必要なLimaの設定を持ってくる
-		git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
-		cd sig-beginners-pwn-public
-		# 既にcloneしていた人は中身を更新
-		cd sig-beginners-pwn-public
-		git pull origin main
+# 必要なLimaの設定を持ってくる
+git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+cd sig-beginners-pwn-public
+```
 
- 	# cpuやmemoryなどを指定したい人は、jammy-amd64.ymlの中の対応するエントリをnullから変更する
-	# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+- Limaの起動他
+
+```zsh
+# cpuやmemoryなどを指定したい人は、jammy-amd64.ymlの中の対応するエントリをnullから変更する
+# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
-	# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
-		limactl start --tty=false --timeout 60m0s jammy-amd64.yml
-		# 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
-			tail -f -n 40 ~/.lima/jammy-amd64/serial.log
-	# 仮想マシンの起動
-		limactl start --tty=false jammy-amd64
-	# 仮想マシンの一覧
-		limactl list
-	# 仮想マシンの中にはいる
-		limactl shell jammy-amd64
-	# 仮想マシンから出る
-		Ctrl-D
-	# 仮想マシンを止める
-		limactl stop jammy-amd64
+# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
+limactl start --tty=false --timeout 60m0s jammy-amd64.yml
+# 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
+tail -f -n 40 ~/.lima/jammy-amd64/serial.log
+# 仮想マシンの起動
+# 末尾にymlがついていないことに注意
+limactl start --tty=false jammy-amd64
+# 仮想マシンの一覧
+limactl list
+# 仮想マシンの中にはいる
+limactl shell jammy-amd64
+# 仮想マシンから出る
+Ctrl-D
+# 仮想マシンを止める
+limactl stop jammy-amd64
+```
   
-色々変更したい場合は[default.yml](https://github.com/lima-vm/lima/blob/master/examples/default.yaml)を参照のこと
-
-## 全てのコマンドがinstallされているか確認する
-	wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
-	chmod +x ./command_chk.sh && ./command_chk.sh
+- 色々変更したい場合は[default.yml](https://github.com/lima-vm/lima/blob/master/examples/default.yaml)を参照のこと
 
 [ubuntu22.04]　
 
-	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
-		ln -s mount_path ~/pwn/Programs
-		# mount_pathにはマウントした絶対Pathを入力
+- ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
 
-[gdbの拡張の使い方]
+```bash
+# mount_pathにはマウントした絶対Pathを入力
+ln -s mount_path ~/pwn/Programs
+```
 
-	# gdbを起動 (bata24/gefを使いたい場合はsudo必須)
- 	sudo gdb --args file1 file2
-  	# gdbを起動 (例えばchallというバイナリを動かしているプロセスにattach)
-   	sudo gdb -p $(pidof chall)
-	# 拡張を使う (起動後のgdbのシェルにコマンドを入力)
- 	- gefを使う
-  		(gdb) gef
-  	- pwndbgを使う
-   		(gdb) dbg
-   	- pwngdbを使う
-    	(gdb) pwngdb
+# 全てのコマンドがinstallされているか確認する
+
+```bash
+wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
+chmod +x ./command_chk.sh && ./command_chk.sh
+```
+
+# gdbの拡張の使い方
+
+```bash
+# gdbを起動 (bata24/gefを使いたい場合はsudo必須)
+sudo gdb --args file1 file2
+# gdbを起動 (例えばchallというバイナリを動かしているプロセスにattach)
+sudo gdb -p $(pidof chall)
+```
+- 拡張を使う (起動後のgdbのシェルにコマンドを入力)
+  - gefを使う
+  ```bash
+	(gdb) gef
+  ```
+  - pwndbgを使う
+  ```bash
+  (gdb) dbg
+  ```
+  - pwngdbを使う (pedaとpwngdb共にあまりメンテされていないので非推奨)
+  ```bash
+  (gdb) pwngdb
+  ```
 
 
-[localでのサーバーの建て方]
+# localでのサーバーの建て方
 
-	# dockerデーモンが起動しているか確認
-		sudo service docker status
-		# 起動していない場合は
-			sudo service docker start
-	# server/challディレクトリの中の各問題のディレクトリに移動し、docker-compose up -dとコマンドを打つ
-	# lsof -iやdocker-compose ps、docker psなどのコマンドで空いているポートを確認
-	# nc localhost {port_number} でサーバーに接続できます。
+```bash
+# dockerデーモンが起動しているか確認
+sudo service docker status
+# 起動していない場合は
+sudo service docker start
+# server/challディレクトリの中の各問題のディレクトリに移動し、docker-compose up -dとコマンドを打つ
+cd ./sig-beginners-pwn-public/server/chall/{chall_name}
+docker compose up -d
+#空いているポートを確認
+lsof -i
+docker-compose ps
+docker ps
+# サーバーに接続
+nc localhost {port_number}
+```
 
-[その他]
+# その他
 
-	仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを作るので、最低限のvi系エディタの扱いは慣れておくこと。
-	インサートモードから出入りするコマンドと変更を保存するorしないで閉じるコマンドさえ覚えていれば十分である。
+- 仮想環境内ではCLIでちょっとしたコードを書くなりコピペするなりしてファイルを作るので、最低限のvi系エディタの扱いは慣れておくこと。
+  - インサートモードから出入りするコマンドと変更を保存するorしないで閉じるコマンドさえ覚えていれば十分である。
+- 何か不具合などあれば、@iwashiiraまでお知らせください。
