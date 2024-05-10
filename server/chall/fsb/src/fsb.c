@@ -3,7 +3,7 @@
 void func()
 {
     char buf[0x20];
-    puts("> ");
+    printf("> ");
     scanf("%31s", buf);
     printf(buf);
     return;
@@ -12,7 +12,8 @@ void func()
 int main()
 {
     char buf[0x20];
-    puts("> ");
+    setvbuf(stdout, (char*) NULL, _IONBF, 0);
+    printf("> ");
     scanf("%31s", buf);
     printf(buf);
     func();

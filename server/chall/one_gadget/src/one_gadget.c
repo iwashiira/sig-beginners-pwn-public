@@ -4,11 +4,12 @@
 int main(){
 
     void **pointer;
+    setvbuf(stdout, (char*) NULL, _IONBF, 0);
     printf("System Address is %p\n", system);
     printf("Stack Address is %p\n", &pointer);
-    puts("Address is >");
+    printf("Address is > ");
     scanf("%p", &pointer);
-    puts("Value is >");
+    printf("Value is > ");
     scanf("%p", pointer);
     return 0;
 }

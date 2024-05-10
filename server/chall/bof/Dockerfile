@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:20.04
+FROM amd64/ubuntu:22.04
 
 
 RUN apt-get update && \
@@ -9,6 +9,7 @@ RUN apt-get update && \
 
 RUN groupadd -r user && useradd -r -g user user
 
+#COPY --chown=root:root ./build/libc.so.6 /lib/x86_64-linux-gnu/libc.so.6
 COPY --chown=root:user ./build/start.sh /home/user/start.sh
 COPY --chown=root:user ./build/flag /home/user/flag
 COPY --chown=root:user ./dist/bof /home/user/bof

@@ -146,11 +146,12 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 		# 既にcloneしていた人は中身を更新
 		cd sig-beginners-pwn-public
 		git pull origin main
-	
+
+ 	# cpuやmemoryなどを指定したい人は、jammy-amd64.ymlの中の対応するエントリをnullから変更する
 	# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
-	# ubuntu22.04の仮想マシンを作成して起動(初回)
-		limactl start --tty=false jammy-amd64.yml
+	# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
+		limactl start --tty=false --timeout 60m0s jammy-amd64.yml
 		# 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
 			tail -f -n 40 ~/.lima/jammy-amd64/serial.log
 	# 仮想マシンの起動
@@ -163,12 +164,33 @@ M1 Macを使っている人はこちらを利用すること。~~ただし、Lim
 		Ctrl-D
 	# 仮想マシンを止める
 		limactl stop jammy-amd64
+  
+色々変更したい場合は[default.yml](https://github.com/lima-vm/lima/blob/master/examples/default.yaml)を参照のこと
+
+## 全てのコマンドがinstallされているか確認する
+	wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/command_chk.sh -O ./command_chk.sh
+	chmod +x ./command_chk.sh && ./command_chk.sh
 
 [ubuntu22.04]　
 
 	# ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
-		ln -s mount_path ~/pwn/Programs 
+		ln -s mount_path ~/pwn/Programs
 		# mount_pathにはマウントした絶対Pathを入力
+
+[gdbの拡張の使い方]
+
+	# gdbを起動 (bata24/gefを使いたい場合はsudo必須)
+ 	sudo gdb --args file1 file2
+  	# gdbを起動 (例えばchallというバイナリを動かしているプロセスにattach)
+   	sudo gdb -p $(pidof chall)
+	# 拡張を使う (起動後のgdbのシェルにコマンドを入力)
+ 	- gefを使う
+  		(gdb) gef
+  	- pwndbgを使う
+   		(gdb) dbg
+   	- pwngdbを使う
+    	(gdb) pwngdb
+
 
 [localでのサーバーの建て方]
 
