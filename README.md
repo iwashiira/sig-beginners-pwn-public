@@ -239,7 +239,7 @@ sudo gdb -p $(pidof chall)
 - 拡張を使う (起動後のgdbのシェルにコマンドを入力)
   - gefを使う
   ```bash
-	(gdb) gef
+  (gdb) gef
   ```
   - pwndbgを使う
   ```bash
