@@ -1,13 +1,14 @@
-# sig-beginners-pwn
+sig-beginners-pwn
+====
+
 Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
 
 # Hostの環境構築
 
 Ghidraをインストールすること。
 
-	Ghidra: 最新のversionのものでよい。
-		https://ghidra-sre.org/InstallationGuide.html#Install
-		必ずjdk-11を使うこと
+- Ghidra: 最新のversionのものでよい。
+- [Ghidra releases](https://github.com/NationalSecurityAgency/ghidra/releases)
 
 # Guestの環境構築
 ## 1. WSLを使った環境構築
