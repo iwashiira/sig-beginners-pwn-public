@@ -1,5 +1,4 @@
 # sig-beginners-pwn
-====
 
 Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
 
@@ -13,25 +12,28 @@ Ghidraをインストールすること。
 
 # Guestの環境構築
 
-4つの方法を用意しています。
+`WSL`, `Vagrant+VirtualBox`, `Docker`, `Lima`の4つの方法を用意しています。各OS毎に動かせる環境は以下の通り。
 - Windows -> [WSL](#1-wslを使った環境構築)
-- Mac (Intel) -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [docker](#3-dockerを使った環境構築), [Lima](#4-limaを使った環境構築)
+- Mac (Intel) -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [Docker](#3-dockerを使った環境構築), [Lima](#4-limaを使った環境構築)
 - Mac (Arm) -> [Lima](#4-limaを使った環境構築)
-- Linux -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [docker](#3-dockerを使った環境構築)
+- Linux -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [Docker](#3-dockerを使った環境構築)
 
 ## 1. WSLを使った環境構築
 Windowsを使っている人のみWSLを使うことができる。
 
 [host]
+- ubuntu22.04をインストールする
+- [WSL Installation](https://docs.microsoft.com/ja-jp/windows/wsl/install)
 
-	WSL: ubuntu22.04をインストールする
-		https://docs.microsoft.com/ja-jp/windows/wsl/install
+[ubuntu22.04]
 
-[ubuntu22.04]　下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
+- 下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
 
-	git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
-	cd ./sig-beginners-pwn-public
-	./install.sh
+```bash
+git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+cd ./sig-beginners-pwn-public
+./install.sh
+```
 
 [tree]	
 
