@@ -1,4 +1,4 @@
-sig-beginners-pwn
+# sig-beginners-pwn
 ====
 
 Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
@@ -7,10 +7,18 @@ Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
 
 Ghidraをインストールすること。
 
-- Ghidra: 最新のversionのものでよい。
+- 最新のversionのものでよい。
 - [Ghidra releases](https://github.com/NationalSecurityAgency/ghidra/releases)
+  - JDKのVersionに注意
 
 # Guestの環境構築
+
+4つの方法を用意しています。
+- Windows -> [WSL](#1-wslを使った環境構築)
+- Mac (Intel) -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [docker](#3-dockerを使った環境構築), [Lima](#4-limaを使った環境構築)
+- Mac (Arm) -> [Lima](#4-limaを使った環境構築)
+- Linux -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [docker](#3-dockerを使った環境構築)
+
 ## 1. WSLを使った環境構築
 Windowsを使っている人のみWSLを使うことができる。
 
