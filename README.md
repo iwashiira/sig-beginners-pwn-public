@@ -80,12 +80,15 @@ cd sig-beginners-pwn-public
 # VMを起動
 # AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。
 vagrant up
+
 # 初回はprovisionが走る
 	
 # VM内に入る。
 vagrant ssh
+
 # VMからでる
 Ctrl-D
+
 # VMを落とす
 # VMから出たあとに行う
 vagrant halt
@@ -127,14 +130,18 @@ docker compose -p pwn_ubuntu2204 build
 # 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 # コンテナの実行
 docker-compose up -d
+
 # コンテナの停止
 docker-compose stop
+
 # コンテナ名の確認、実行状態の確認。
 docker-compose ps
+
 # コンテナ内に入る
 docker exec -it sig-beginners-pwn-public_pwn_ubuntu2204_1 /bin/bash
 # または
 docker-compose exec pwn_ubuntu2204 bash
+
 # コンテナから出る
 Ctrl-D
 ```
@@ -149,15 +156,20 @@ Arm Macを使っている人はこちらを利用すること。
 ```zsh
 # brewのインストール
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 # .zshrcを作っていない人は作成
 touch ~/.zshrc
+
 # .zshrcにbrewのPathを通す
 # vimで~/.zshrcファイルを開く
 vim ~/.zshrc
+
 # iと打ってinsertモードに入り、以下の一行を追記
 export PATH=$PATH:/opt/homebrew
+
 # ESCでinsertモードから抜け、:wqと打って変更を保存
 source ~/.zshrc
+
 # brewが入っていることを確認
 brew help
 	
@@ -177,17 +189,23 @@ cd sig-beginners-pwn-public
 	
 # ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
 limactl start --tty=false --timeout 60m0s jammy-amd64.yml
+
 # 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
 tail -f -n 40 ~/.lima/jammy-amd64/serial.log
+
 # 仮想マシンの起動
 # 末尾にymlがついていないことに注意
 limactl start --tty=false jammy-amd64
+
 # 仮想マシンの一覧
 limactl list
+
 # 仮想マシンの中にはいる
 limactl shell jammy-amd64
+
 # 仮想マシンから出る
 Ctrl-D
+
 # 仮想マシンを止める
 limactl stop jammy-amd64
 ```
@@ -240,13 +258,16 @@ sudo gdb -p $(pidof chall)
 sudo service docker status
 # 起動していない場合は
 sudo service docker start
+
 # server/challディレクトリの中の各問題のディレクトリに移動し、docker-compose up -dとコマンドを打つ
 cd ./sig-beginners-pwn-public/server/chall/{chall_name}
 docker compose up -d
+
 #空いているポートを確認
 lsof -i
 docker-compose ps
 docker ps
+
 # サーバーに接続
 nc localhost {port_number}
 ```
