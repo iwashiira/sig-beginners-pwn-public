@@ -7,7 +7,7 @@ Hostの環境構築と、いずれかのGuestの環境構築を行うこと。
 Ghidraをインストールすること。
 
 - 最新のversionのものでよい。
-- [Ghidra releases](https://github.com/NationalSecurityAgency/ghidra/releases)
+  - [Ghidra releases](https://github.com/NationalSecurityAgency/ghidra/releases)
   - JDKのVersionに注意
 
 # Guestの環境構築
@@ -23,7 +23,7 @@ Windowsを使っている人のみWSLを使うことができる。
 
 [host]
 - ubuntu22.04をインストールする
-- [WSL Installation](https://docs.microsoft.com/ja-jp/windows/wsl/install)
+  - [WSL Installation](https://docs.microsoft.com/ja-jp/windows/wsl/install)
 
 [ubuntu22.04]
 
@@ -36,7 +36,7 @@ cd ./sig-beginners-pwn-public
 ```
 
 [tree]	
-
+```bash
 	/root
  	├── .gdbinit
   	├── .gdbinit-gef.py
@@ -51,83 +51,93 @@ cd ./sig-beginners-pwn-public
     	└── Tools
         		├── peda
         		├── Pwngdb
-	  		├── pwndbg
+				├── pwndbg
         		└── radare2
-
+```
 
 ## 2. Vagrantを使った環境構築
-M1 Macを使っている人はVagrantを使うことはできない。
+Arm Macを使っている人はVagrantを使うことはできない。
 
 [host]　Vagrant,Virtualboxをそれぞれインストールすること。
 
-	Vagrant: generic/ubuntu2204を使う
-		https://www.vagrantup.com/downloads
+- generic/ubuntu2204を使う
+  - [Vagrant Download](https://www.vagrantup.com/downloads)
 		
-	# 必要なVagrantfileを持ってくる。
-		git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
-		cd sig-beginners-pwn-public
-		Vagrantfileの割り当てるcpuの数、メモリ、名前は適宜自分の環境に合わせる。
+- 必要なVagrantfileを持ってくる。
+- Vagrantfileの割り当てるcpuの数、メモリ、名前は適宜自分の環境に合わせる。
 
-	Virtualbox:
-		https://www.virtualbox.org/wiki/Downloads
+```bash
+git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+cd sig-beginners-pwn-public
+```
+
+- VirtualboxのInstall
+  - [VirtualBox Download](https://www.virtualbox.org/wiki/Downloads)
 
 [vagrant] このリポジトリ内のVagrantfileを使う
 
-	# VMを起動
-		vagrant up
-		# AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。
-		# 初回はprovisionが走る
+```bash
+# VMを起動
+# AntiVirusソフトが動いていると上手くいかないことがあるのでその時は一時的に止める。
+vagrant up
+# 初回はprovisionが走る
 	
-	# VM内に入る。
-		vagrant ssh
-	# VMからでる
-		Ctrl-D
-	# VMを落とす
-		vagrant halt
-		# VMから出たあとに行う
+# VM内に入る。
+vagrant ssh
+# VMからでる
+Ctrl-D
+# VMを落とす
+# VMから出たあとに行う
+vagrant halt
+```
 
 ## 3. Dockerを使った環境構築
-M1 Macを使っている人はこの方法を利用できない。ptraceがサポートされておらず、gdbを使えないので。また、Dockerfile等はWindows用には作っていない。
+- Arm Macを使っている人はこの方法を利用できない。ptraceがサポートされておらず、gdbを使えないので。
+- Dockerfile等はWindows用には作っていない。
 
 [host] Dockerとdocker-composeをインストール
 
-	Docker:
-		https://docs.docker.com/get-docker/
-	
-	docker-compose:
-		https://docs.docker.com/compose/install/
+- DockerのInstall
+  - [Docker Installation](https://docs.docker.com/get-docker/)
+- docker-composeのInstallation
+  - 最近は、dockerをInstallすると、composeのサブコマンドが付随してInstallされていることが多い
+  - [docker compose Installation](https://docs.docker.com/compose/install/)
 
 [docker] このリポジトリ内のDockerfileとdocker-compose.ymlを使います。環境が立ち上がるまでに時間がかかる。
 
-	# Docker for Macを使っている場合は、Launchpadからappを起動してdockerとdocker-composeを使えるようにする。
+- コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されない。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消える。
+- エディタはvimとneovimが入っています。
+
+```bash
+# Docker for Macを使っている場合は、Launchpadからappを起動してdockerとdocker-composeを使えるようにする。
 	
-	# 必要なDockerの設定ファイルを持ってくる。
-		git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
-		cd sig-beginners-pwn-public
+# 必要なDockerの設定ファイルを持ってくる。
+git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+cd sig-beginners-pwn-public
 	
-	# .envファイルを作成するほか、./Programsディレクトリのパーミッションをrwxにする。
-		./set_dotenv.sh
-		chmod 777 ./Programs
+# .envファイルを作成するほか、./Programsディレクトリのパーミッションをrwxにする。
+./set_dotenv.sh
+chmod 777 ./Programs
 	
-	# dockerのコンテナを作る。pwn_ubuntu2204は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
-		docker-compose -p pwn_ubuntu2204 build
+# dockerのコンテナを作る。pwn_ubuntu2204は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
+docker-compose -p pwn_ubuntu2204 build
+# composeサブコマンドの場合
+docker compose -p pwn_ubuntu2204 build
 	
-	# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
-	# コンテナの実行
-		docker-compose up -d
-	# コンテナの停止
-		docker-compose stop
-	# コンテナ名の確認、実行状態の確認。
-		docker-compose ps
-	# コンテナ内に入る
-		docker exec -it sig-beginners-pwn-public_pwn_ubuntu2204_1 /bin/bash
-		# または
-		docker-compose exec pwn_ubuntu2204 bash
-	# コンテナから出る
-		Ctrl-D
-	
-	# コンテナ内での操作は~/pwn/Programsディレクトリの上のものしか保存されない。ほかの場所に作ったファイルはコンテナそのものを削除してしまったときに一緒に消える。
-	# エディタはvimとneovimが入っています。
+# 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
+# コンテナの実行
+docker-compose up -d
+# コンテナの停止
+docker-compose stop
+# コンテナ名の確認、実行状態の確認。
+docker-compose ps
+# コンテナ内に入る
+docker exec -it sig-beginners-pwn-public_pwn_ubuntu2204_1 /bin/bash
+# または
+docker-compose exec pwn_ubuntu2204 bash
+# コンテナから出る
+Ctrl-D
+```
 
 ## 4. Limaを使った環境構築
 M1 Macを使っている人はこちらを利用すること。~~ただし、Limaの下で動いているqemu-system-x86\_64にはstackのアラインメント関連のチェックがなく、movaps命令でSIGSEGVが発生することがないことに留意。~~ alignment違反で落ちるように修正されているかも。
