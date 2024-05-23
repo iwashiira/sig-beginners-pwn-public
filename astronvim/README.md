@@ -9,10 +9,15 @@
 - Nerd Fontをターミナルの外観として指定する
    - Windows
      - Windows TerminalのWSLの外観から
+       - 設定 > プロファイルの`Ubuntu 22.04 LTS` > 外観 > フォントフェイス
    - Mac
      - [Iterm2](https://iterm2.com/)を使用する
        - MacのデフォルトのterminalだとNerd Fontがバグる
    - Linux
+     - GUI環境
+       - terminalのFontをNerd Fontに変更する
+     - CUI環境
+       - `nerd-fonts.sh`を使用する
  
 # AstroNvimをInstall
 
