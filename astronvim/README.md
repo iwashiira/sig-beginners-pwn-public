@@ -32,3 +32,7 @@ cd sig-beginners-pwn-public && ./astronvim.sh
     q            #masonの画面を閉じる
     :q!          #untitledのファイルを保存せずに終了
     ```
+- astronvim.shを実行すると、ホームディレクトリに`pyrightconfig.json`が作られます。
+  - このディレクトリを含んだ子ディレクトリの中のpythonファイルは、wildcard importのwarningが無視されます。
+    - `from ptrlib import *`がwarningを吐かなくなります。
+    - 必要でなければ、削除して大丈夫です。
