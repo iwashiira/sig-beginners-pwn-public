@@ -95,6 +95,17 @@ source "$HOME/.cargo/env"
 
 echo -e "\e[34m--- Cargo installation successfully ended ---\e[m"
 
+echo -e "\e[31m--- Node installation ---\e[m"
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+
+nvm install 20
+node -v
+npm -v
+
+echo -e "\e[34m--- Node installation successfully ended ---\e[m"
+
 sudo apt update && sudo apt install -y \
     build-essential \
     gdb \

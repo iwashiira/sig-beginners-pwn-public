@@ -23,5 +23,5 @@ fi
 git clone --depth 1 https://github.com/AstroNvim/template $HOME/.config/nvim
 sudo rm -rf ~/.config/nvim/.git
 nvim -c "q"
-nvim -c "LspInstall rust_analyzer clangd jedi_language_server"
+nvim -c "LspInstall rust_analyzer clangd pyright"
 echo -e "\e[34m--- AstroNvim installation successfully ended ---\e[m"
