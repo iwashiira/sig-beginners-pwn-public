@@ -1,0 +1,29 @@
+# AstroNvimをEditorとして使用する場合
+
+# Nerd FontをInstallする
+
+- Nerd FontをHostにインストール
+  - HostのターミナルでのNerd Fontでの表示のため
+  - [Nerd Font Repository](https://github.com/ryanoasis/nerd-fonts)から好きなFontをダウンロードし、インストール
+
+- Nerd Fontをターミナルの外観として指定する
+   - Windows
+     - Windows TerminalのWSLの外観から
+   - Mac
+     - [Iterm2](https://iterm2.com/)を使用する
+       - MacのデフォルトのterminalだとNerd Fontがバグる
+   - Linux
+ 
+# AstroNvimをInstall
+
+- astronvim.shを実行
+
+```bash
+git clone https://github.com/iwashiira/sig-beginners-pwn-public.git
+cd sig-beginners-pwn-public && ./astronvim.sh
+```
+- LspをInstallした後のnvimを開いた画面で止まってしまうので、Windowを閉じる
+  - ```bash
+    q            #masonの画面を閉じる
+    :q!          #untitledのファイルを保存せずに終了
+    ```
