@@ -10,7 +10,6 @@ cmd=(
     "node"
     "npm"
     "nvim"
-    "nvm"
     "one_gadget"
     "patchelf"
     "pyenv"
