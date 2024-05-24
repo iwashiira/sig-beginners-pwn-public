@@ -33,6 +33,7 @@ cd sig-beginners-pwn-public && ./astronvim.sh
     :q!          #untitledのファイルを保存せずに終了
     ```
   - `astronvim.sh`の`nvim -c "Mason"`をコメントアウトすると、LogのWindowは開かない
+    - https://github.com/iwashiira/sig-beginners-pwn-public/blob/main/astronvim/astronvim.sh#L32
 - astronvim.shを実行すると、ホームディレクトリに`pyrightconfig.json`が作られます。
   - このディレクトリを含んだ子ディレクトリの中のpythonファイルは、wildcard importのwarningが無視されます。
     - `from ptrlib import *`がwarningを吐かなくなります。
