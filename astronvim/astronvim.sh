@@ -23,7 +23,11 @@ if [ -e $HOME/.cache/nvim ]; then
   sudo rm -rf $HOME/.cache/nvim 
 fi
 git clone --depth 1 https://github.com/AstroNvim/template $HOME/.config/nvim
-sudo rm -rf ~/.config/nvim/.git
+sudo rm -rf $HOME/.config/nvim/.git
 nvim -c "q"
-nvim -c "LspInstall rust_analyzer clangd pyright"
+
+cd $SH_PATH
+echo 'require "mason-config"' >>  $HOME/.config/nvim/init.lua
+cp ./mason-config.lua $HOME/.config/nvim/lua/mason-config.lua
+nvim -c "Mason"
 echo -e "\e[34m--- AstroNvim installation successfully ended ---\e[m"
