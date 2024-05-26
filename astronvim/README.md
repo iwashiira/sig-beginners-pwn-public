@@ -13,6 +13,7 @@
    - Mac
      - [Iterm2](https://iterm2.com/)を使用する
        - MacのデフォルトのterminalだとNerd Fontがバグる
+       - Settings > Profiles > Text > Font
    - Linux
      - GUI環境
        - terminalのFontをNerd Fontに変更する
