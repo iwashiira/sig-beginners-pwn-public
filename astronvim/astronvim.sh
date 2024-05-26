@@ -2,6 +2,16 @@
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
+if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1 ; then
+  echo -e "\e[31m--- Node installation ---\e[m"
+
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  source $HOME/.bashrc
+
+  nvm install 20
+  echo -e "\e[34m--- Node installation successfully ended ---\e[m"
+fi
+
 echo -e "\e[31m--- AstroNvim installation ---\e[m"
 
 cp ./pyrightconfig.json $HOME
