@@ -14,8 +14,6 @@ fi
 
 echo -e "\e[31m--- AstroNvim installation ---\e[m"
 
-cp ./pyrightconfig.json $HOME
-
 if [ -e $HOME/.config/nvim ]; then
   sudo cp -r $HOME/.config/nvim $HOME/.config/nvim.bak
   sudo rm -rf $HOME/.config/nvim 
