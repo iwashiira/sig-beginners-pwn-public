@@ -34,8 +34,6 @@ git clone --depth 1 https://github.com/AstroNvim/template $HOME/.config/nvim
 sudo rm -rf $HOME/.config/nvim/.git
 nvim -c "q"
 
-cd $SH_PATH
-echo 'require "mason-config"' >>  $HOME/.config/nvim/init.lua
-cp ./mason-config.lua $HOME/.config/nvim/lua/mason-config.lua
-nvim -c "Mason"
-echo -e "\e[34m--- AstroNvim installation successfully ended ---\e[m"
+nvim --headless -c "LspInstall lua_ls bashls clangd cmake cssls dockerls docker_compose_language_service html jsonls tsserver marksman pyright rust_analyzer yamlls" -c "qa"
+
+echo -e "\n\e[34m--- AstroNvim installation successfully ended ---\e[m"
