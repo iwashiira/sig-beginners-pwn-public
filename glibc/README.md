@@ -10,6 +10,8 @@
 
 # glibcのデバッグ
 
+- [command.py](../heap/day1/command.py)のようにgdbを実行する時に`set substitute-path`で`glibc-{version}`ディレクトリのpathを指定する
+
 # glibcのソースコードリーディング
 
 1. [glibcのソースコードを落とす](#glibcのソースコードを落とす)を実行
