@@ -1,62 +1,94 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_NOTE 5
+#define MAX_SIZE 0x50000
 
 char *note[MAX_NOTE];
 int size[MAX_NOTE];
 
 void print_menu() { printf("1. make\n2. edit\n3. show\n4. delete\n5. exit\n"); }
 
-void make_note() {
-  int index;
-  printf("index > ");
-  scanf("%d", &index);
+int read_int(int *n) {
+  int c = scanf("%d", n);
+  getchar();
+  return c;
+}
+
+int check_index(int index) {
   if (index >= MAX_NOTE || index < 0) {
+    return 1;
+  }
+  return 0;
+}
+
+void make_note() {
+  int index = 0;
+  printf("index > ");
+  if (read_int(&index) != 1 || check_index(index)) {
     printf("Invalid index\n");
     return;
   }
+
   printf("size > ");
-  scanf("%d", &size[MAX_NOTE]);
+  if (read_int(&size[index]) != 1 || size[index] > MAX_SIZE ||
+      size[index] < 0) {
+    printf("Invalid size\n");
+    return;
+  }
+
   note[index] = malloc(size[index]);
   assert(note[index] != NULL);
   return;
 }
 
 void edit_note() {
-  int index;
+  int index = 0;
   printf("index > ");
-  scanf("%d", &index);
-  if (index >= MAX_NOTE || index < 0) {
+  if (read_int(&index) != 1 || check_index(index)) {
     printf("Invalid index\n");
     return;
   }
+  if (note[index] == NULL) {
+    printf("Note does not exist\n");
+    return;
+  }
+
   printf("data > ");
   fgets(note[index], size[index], stdin);
   return;
 }
 
 void show_note() {
-  int index;
+  int index = 0;
   printf("index > ");
-  scanf("%d", &index);
-  if (index >= MAX_NOTE || index < 0) {
+  if (read_int(&index) != 1 || check_index(index)) {
     printf("Invalid index\n");
     return;
   }
+  if (note[index] == NULL) {
+    printf("Note does not exist\n");
+    return;
+  }
+
   printf("%s", note[index]);
   return;
 }
 
 void delete_note() {
-  int index;
+  int index = 0;
   printf("index > ");
-  scanf("%d", &index);
-  if (index >= MAX_NOTE || index < 0) {
+  if (read_int(&index) != 1 || check_index(index)) {
     printf("Invalid index\n");
     return;
   }
+  if (note[index] == NULL) {
+    printf("Note does not exist\n");
+    return;
+  }
+
   free(note[index]);
   return;
 }
@@ -67,9 +99,9 @@ int main() {
   while (1) {
     print_menu();
     printf("> ");
-    if (scanf("%d", &num) != 1) {
-      while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    if (read_int(&num) != 1) {
+      printf("Invalid input\n");
+      continue;
     }
     switch (num) {
     case 1:
