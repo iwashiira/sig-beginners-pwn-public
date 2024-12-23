@@ -7,6 +7,8 @@ cmd=(
     "gdb"
     "git"
     "nc"
+    "node"
+    "npm"
     "nvim"
     "one_gadget"
     "patchelf"

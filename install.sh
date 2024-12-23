@@ -15,6 +15,26 @@ sudo cp -r /tmp/nvim-linux64/share/nvim /usr/share
 rm /tmp/nvim-linux64.tar.gz
 rm -r /tmp/nvim-linux64
 
+echo -e "\e[31m--- Docker installation ---\e[m"
+
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+# Add Docker's official GPG key:
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo DEBIAN_FRONTEND=noninteractive apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo -e "\e[34m--- Docker installation successfully ended ---\e[m"
+
 echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
 
 sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
@@ -94,6 +114,17 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y
 source "$HOME/.cargo/env"
 
 echo -e "\e[34m--- Cargo installation successfully ended ---\e[m"
+
+echo -e "\e[31m--- Node installation ---\e[m"
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+
+nvm install 20
+node -v
+npm -v
+
+echo -e "\e[34m--- Node installation successfully ended ---\e[m"
 
 sudo apt update && sudo apt install -y \
     build-essential \
