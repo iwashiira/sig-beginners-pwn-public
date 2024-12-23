@@ -3,5 +3,5 @@ core
 peda*
 .env
 .vagrant/
-./glibc/*/
-./glibc/glibc_*
+glibc/*/
+glibc/glibc_*
