@@ -115,8 +115,6 @@ sudo chmod +x /usr/local/bin/rp++
 
 python3 -m pip install pwntools pathlib2 ptrlib
 
-gem install one_gadget
-
 cargo install ropr
 
 PWNDIR="$HOME/pwn"
