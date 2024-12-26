@@ -2,6 +2,7 @@
 SH_PATH=$(cd $(dirname $0) && pwd)
 cd $SH_PATH
 
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y wget
 wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O $HOME/.gdbinit
 sudo cp $HOME/.gdbinit /root
 wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.bashrc -O $HOME/.bashrc
