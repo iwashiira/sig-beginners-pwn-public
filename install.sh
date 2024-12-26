@@ -108,6 +108,8 @@ sudo apt update && sudo apt install -y \
     && sudo rm -rf /var/lib/apt/lists/*
 
 
+sudo wget $(curl -s https://api.github.com/repos/slimm611/checksec/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4) -O /tmp/checksec.tar.gz
+tar xzvf /tmp/checksec.tar.gz
 
 sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
 unzip /tmp/rp++.zip -d /tmp
