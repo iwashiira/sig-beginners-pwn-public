@@ -136,9 +136,11 @@ cd sig-beginners-pwn-public
 chmod 777 ./Programs
 	
 # dockerのコンテナを作る。pwn_ubuntu2204は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
-docker-compose -p pwn_ubuntu2204 build
+docker-compose -p pwn_ubuntu2204 build --no-cache
 # composeサブコマンドの場合
-docker compose -p pwn_ubuntu2204 build
+docker compose -p pwn_ubuntu2204 build --no-cache
+# コンテナの実行もする場合
+docker compose up -d --build --no-cache
 	
 # 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 # コンテナの実行
