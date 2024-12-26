@@ -3,6 +3,7 @@ cmd=(
     "cargo"
     "checksec"
     "curl"
+    "docker"
     "gcc"
     "gdb"
     "git"
