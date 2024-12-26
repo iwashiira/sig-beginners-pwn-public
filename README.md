@@ -255,10 +255,6 @@ sudo gdb -p $(pidof chall)
   ```bash
   (gdb) dbg
   ```
-  - pwngdbを使う (pedaとpwngdb共にあまりメンテされていないので非推奨)
-  ```bash
-  (gdb) pwngdb
-  ```
 
 
 # localでのサーバーの建て方
