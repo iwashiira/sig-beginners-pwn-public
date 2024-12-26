@@ -139,8 +139,6 @@ chmod 777 ./Programs
 docker-compose -p pwn_ubuntu2204 build --no-cache
 # composeサブコマンドの場合
 docker compose -p pwn_ubuntu2204 build --no-cache
-# コンテナの実行もする場合
-docker compose up -d --build --no-cache
 	
 # 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 # コンテナの実行
