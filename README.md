@@ -62,10 +62,7 @@ cd ./sig-beginners-pwn-public
 └── pwn
 	└──Programs
 	└── Tools
-		├── peda
-		├── Pwngdb
-		├── pwndbg
-		└── radare2
+		└── pwndbg
 ```
 
 ## 2. Vagrantを使った環境構築
