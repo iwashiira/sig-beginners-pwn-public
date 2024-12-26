@@ -13,9 +13,12 @@ cmd=(
     "nvim"
     "one_gadget"
     "patchelf"
+    "pyenv"
     "python3"
+    "rbenv"
     "ropr"
     "rp++"
+    "r2"
     "wget"
 )
 

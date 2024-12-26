@@ -18,6 +18,19 @@ Ghidraをインストールすること。
 - Mac (Arm) -> [Lima](#4-limaを使った環境構築)
 - Linux -> [Vagrant + VirtualBox](#2-vagrantを使った環境構築), [Docker](#3-dockerを使った環境構築)
 
+いくつかのコマンドをデフォルトでinstallしないようにしました。これまでの全てのinstallを行いたい場合は、以下のコマンドを実行してください。
+
+```
+mv ./.gdbinit ./.gdbinit.reserve
+mv ./.bashrc ./.bashrc.reserve
+mv ./install.sh ./install.sh.reserve
+mv ./command_chk.sh ./command_chk.sh.reserve
+cp ./install-all/.gdbinit-all ./.gdbinit
+cp ./install-all/.bashrc-all ./.bashrc
+cp ./install-all/install-all.sh ./install.sh
+cp ./install-all/command_chk-all.sh ./command_chk.sh
+```
+
 ## 1. WSLを使った環境構築
 Windowsを使っている人のみWSLを使うことができる。
 
@@ -123,9 +136,9 @@ cd sig-beginners-pwn-public
 chmod 777 ./Programs
 	
 # dockerのコンテナを作る。pwn_ubuntu2204は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
-docker-compose -p pwn_ubuntu2204 build
+docker-compose -p pwn_ubuntu2204 build --no-cache
 # composeサブコマンドの場合
-docker compose -p pwn_ubuntu2204 build
+docker compose -p pwn_ubuntu2204 build --no-cache
 	
 # 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 # コンテナの実行

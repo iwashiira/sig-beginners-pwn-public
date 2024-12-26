@@ -6,9 +6,9 @@ ARG USERNAME
 ARG GROUPNAME
 ARG UID
 ARG GID
-RUN useradd -m -s /bin/bash -G sudo -u $UID $USERNAME
 RUN apt update && apt install sudo tzdata -y
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd -m -s /bin/bash -G sudo -u $UID $USERNAME
+RUN echo "%$USERNAME ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER $USERNAME
 
