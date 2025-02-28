@@ -12,10 +12,10 @@ sudo chmod +x /usr/local/bin/aslr
 
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz -O /tmp/nvim-linux64.tar.gz
 tar xzf /tmp/nvim-linux64.tar.gz -C /tmp
-sudo cp /tmp/nvim-linux64/bin/nvim /usr/bin
-sudo cp -r /tmp/nvim-linux64/share/nvim /usr/share
+sudo cp /tmp/nvim-linux-x86_64/bin/nvim /usr/bin
+sudo cp -r /tmp/nvim-linux-x86_64/share/nvim /usr/share
 rm /tmp/nvim-linux64.tar.gz
-rm -r /tmp/nvim-linux64
+rm -r /tmp/nvim-linux-x86_64
 
 echo -e "\e[31m--- Docker installation ---\e[m"
 
