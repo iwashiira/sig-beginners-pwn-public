@@ -149,7 +149,7 @@ sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     qemu-system \
     musl-tools
 
-sudo curl -O https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux -o /usr/local/bin
+sudo curl -o /usr/local/bin/extract-vmlinux -O https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux
 sudo chmod +x /usr/local/bin/extract-vmlinux
 
 echo -e "\e[34m--- Pwnable Tools installation successfully ended ---\e[m"

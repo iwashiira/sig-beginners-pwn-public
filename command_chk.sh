@@ -17,6 +17,9 @@ cmd=(
     "ropr"
     "rp++"
     "wget"
+    "extract-vmlinux"
+    "musl-gcc"
+    "qemu-system-x86_64"
 )
 
 echo "Verify all the commands are installed"
