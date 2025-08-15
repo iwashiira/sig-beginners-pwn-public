@@ -143,4 +143,13 @@ wget -q https://raw.githubusercontent.com/bata24/gef/dev/install.sh -O- | sudo D
 sudo mkdir /root/pwn
 sudo ln -s $TOOLS_DIR /root/pwn/Tools
 
+echo -e "\e[31m--- Kernel Pwnable Tools installation ---\e[m"
+
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+    qemu-system \
+    musl-tools
+
+sudo curl -O https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux -o /usr/local/bin
+sudo chmod +x /usr/local/bin/extract-vmlinux
+
 echo -e "\e[34m--- Pwnable Tools installation successfully ended ---\e[m"
