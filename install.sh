@@ -4,7 +4,6 @@ cd $SH_PATH
 
 sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y wget
 wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O $HOME/.gdbinit
-sudo cp $HOME/.gdbinit /root
 wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.bashrc -O $HOME/.bashrc
 sudo wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/manage_aslr.sh -O /usr/local/bin/aslr
 sudo chmod +x /usr/local/bin/aslr
@@ -138,7 +137,10 @@ cd $TOOLS_DIR
 git clone https://github.com/pwndbg/pwndbg
 cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
 
-wget -q https://raw.githubusercontent.com/bata24/gef/dev/install.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
+wget -q https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
+sudo cp $HOME/.gdbinit /root
+sudo cp -r /root/.gef $HOME
+sudo chown -R "$(whoami)":"$(whoami)" $HOME/.gef
 
 sudo mkdir /root/pwn
 sudo ln -s $TOOLS_DIR /root/pwn/Tools
