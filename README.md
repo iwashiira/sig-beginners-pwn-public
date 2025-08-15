@@ -20,6 +20,9 @@ Ghidraをインストールすること。
 
 いくつかのコマンドをデフォルトでinstallしないようにしました。これまでの全てのinstallを行いたい場合は、以下のコマンドを実行してください。
 
+- 今後install-allはメンテしません。2025/08/16からinstall-all.shはinstall.shの上位互換ではありません。
+- 後日、install-all -> old-installに変更します。
+
 ```
 mv ./.gdbinit ./.gdbinit.reserve
 mv ./.bashrc ./.bashrc.reserve
