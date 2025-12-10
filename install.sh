@@ -139,8 +139,8 @@ git clone https://github.com/pwndbg/pwndbg
 cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
 
 sudo apt install -y ruby ruby-dev build-essential
-gem install one_gadget
-gem install seccomp-tools
+sudo gem install one_gadget
+sudo gem install seccomp-tools
 
 wget -q https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
 sudo cp $HOME/.gdbinit /root
