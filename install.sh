@@ -138,12 +138,14 @@ cd $TOOLS_DIR
 git clone https://github.com/pwndbg/pwndbg
 cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
 
-sudo snap install ruby --classic
+sudo apt install -y ruby ruby-dev build-essential
+gem install one_gadget
+gem install seccomp-tools
 
 wget -q https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
 sudo cp $HOME/.gdbinit /root
-sudo cp -r /root/.gef $HOME
-sudo chown -R "$(whoami)":"$(whoami)" $HOME/.gef
+#sudo cp -r /root/.gef $HOME
+#sudo chown -R "$(whoami)":"$(whoami)" $HOME/.gef
 
 sudo mkdir /root/pwn
 sudo ln -s $TOOLS_DIR /root/pwn/Tools
