@@ -108,8 +108,9 @@ sudo apt update && sudo apt install -y \
 
 
 sudo wget $(curl -s https://api.github.com/repos/slimm609/checksec/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4) -O /tmp/checksec.tar.gz
-tar xzvf /tmp/checksec.tar.gz
-sudo cp /tmp/checksec /usr/local/bin/checksec
+mkdir -p /tmp/checksec
+tar xzvf /tmp/checksec.tar.gz -C /tmp/checksec
+sudo cp /tmp/checksec/checksec /usr/local/bin/checksec
 sudo chmod +x /usr/local/bin/checksec
 
 sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
@@ -136,6 +137,8 @@ cd $TOOLS_DIR
 
 git clone https://github.com/pwndbg/pwndbg
 cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
+
+sudo snap install ruby --classic
 
 wget -q https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
 sudo cp $HOME/.gdbinit /root
