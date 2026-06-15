@@ -207,13 +207,29 @@ task_gems() {
 
 # radare2 (公式プリビルド .deb をDLするのみ。ソースビルドは行わない)
 # dpkg/apt ロックを避けるため、ここでは DL だけ行い、インストールは後処理(直列)で実施。
+# バージョン取得は GitHub API ではなく releases/latest のリダイレクト先から行う
+# (API はレート制限で空応答になりやすいため)。DL後に正当な .deb か検証してから残す。
+_radare2_dl_once() {
+    local ver url
+    ver=$(curl -fsSL --retry 3 --max-time 30 -o /dev/null \
+        -w '%{url_effective}' https://github.com/radareorg/radare2/releases/latest \
+        | sed -E 's#.*/tag/##')
+    if [ -z "$ver" ]; then
+        echo "radare2: バージョン取得に失敗しました" >&2
+        return 1
+    fi
+    url="https://github.com/radareorg/radare2/releases/download/${ver}/radare2_${ver}_amd64.deb"
+    wget -q --tries=3 --timeout=30 "$url" -O /tmp/radare2.deb || return 1
+    # DL したファイルが正当な .deb か検証 (空/HTML/途中切断を弾く)
+    if ! dpkg-deb -I /tmp/radare2.deb >/dev/null 2>&1; then
+        echo "radare2: ダウンロードした .deb が不正です (${url})" >&2
+        rm -f /tmp/radare2.deb
+        return 1
+    fi
+}
+
 task_radare2_dl() {
-    local url
-    url=$(curl -s https://api.github.com/repos/radareorg/radare2/releases/latest \
-        | grep browser_download_url \
-        | grep -E 'radare2_[0-9][0-9.]*_amd64\.deb' \
-        | cut -d '"' -f 4 | head -n1)
-    wget -q --tries=3 --timeout=30 "$url" -O /tmp/radare2.deb
+    retry _radare2_dl_once
 }
 
 # gdb 拡張: pwndbg と gef。
@@ -225,8 +241,14 @@ task_radare2_dl() {
 #  なく venv ローカルの Python 依存解決であり、書き込み先も別なので衝突しない)
 
 task_pwndbg() {
-    git clone https://github.com/pwndbg/pwndbg "$TOOLS_DIR/pwndbg"
-    cd "$TOOLS_DIR/pwndbg" || exit 1
+    # 再実行(再provision)冪等性: 既に clone 済みなら pull、無ければ clone。
+    if [ -d "$TOOLS_DIR/pwndbg/.git" ]; then
+        cd "$TOOLS_DIR/pwndbg" || return 1
+        retry git pull --ff-only || true
+    else
+        retry git clone https://github.com/pwndbg/pwndbg "$TOOLS_DIR/pwndbg" || return 1
+        cd "$TOOLS_DIR/pwndbg" || return 1
+    fi
     # install_apt() 内の `sudo apt-get ...` を無効化 (依存は統合 apt install 済み)
     sed -i -E 's/sudo apt-get /true /g' setup.sh
     if grep -qE 'sudo apt-get ' setup.sh; then
@@ -248,7 +270,9 @@ task_gef() {
     fi
     # gef は root 権限が必須 (id -u == 0 を要求)。uv の DL が一過性タイムアウトしても
     # 全体を落とさないようリトライ。install-uv.sh は冒頭で gef.py の存在を見て中断する
-    # ため、再試行前に gef.py を削除して冪等にする (venv/DL済み分はそのまま再利用)。
+    # ため、(再実行/再試行の) 各回の前に gef.py を削除して冪等にする
+    # (venv/DL済み分はそのまま再利用される)。
+    sudo rm -f /root/.gef/gef.py
     local n=1 max=3
     until sudo env UV_HTTP_TIMEOUT="$UV_HTTP_TIMEOUT" UV_CONCURRENT_DOWNLOADS="$UV_CONCURRENT_DOWNLOADS" \
             DEBIAN_FRONTEND=noninteractive sh "$s"; do
@@ -310,11 +334,13 @@ sudo mkdir -p /root/pwn
 sudo ln -sfn "$TOOLS_DIR" /root/pwn/Tools
 
 # radare2: DL 済みの .deb をインストール (依存解決は apt 任せ。apt lists 削除より前に実施)
-if [ -f /tmp/radare2.deb ]; then
+# 正当な .deb の場合のみ install する (壊れたファイルを渡すと apt がメタデータ解析で落ちるため)
+if dpkg-deb -I /tmp/radare2.deb >/dev/null 2>&1; then
     sudo DEBIAN_FRONTEND=noninteractive apt install -y /tmp/radare2.deb
     rm -f /tmp/radare2.deb
 else
-    echo -e "\e[31m[FAIL]\e[m radare2 .deb not found (see /tmp/install_task_radare2_dl.log)"
+    echo -e "\e[31m[FAIL]\e[m radare2: 有効な .deb がありません (task_radare2_dl 失敗の可能性)"
+    rm -f /tmp/radare2.deb
     fail=1
 fi
 
