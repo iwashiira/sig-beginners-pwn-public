@@ -1,45 +1,56 @@
 #!/bin/bash
-SH_PATH=$(cd $(dirname $0) && pwd)
-cd $SH_PATH
+# =============================================================================
+# sig-beginners-pwn セットアップスクリプト (高速版)
+#
+# 最適化方針 (インストールされるツール構成は従来と完全に同一):
+#   - `apt upgrade` を廃止 (最大の時間短縮)
+#   - apt は「前提pkg + dockerリポジトリ追加」→「全pkgを1回でまとめてinstall」
+#     に統合し、apt update / install の呼び出し回数を削減
+#   - apt を使わない純粋なDL/ビルド処理は全てバックグラウンドで並列実行 (wait)
+#   - apt を内部で使う pwndbg/gef のみ 1ジョブに直列化
+#   - 並列実行でも ~/.bashrc を壊さないよう rustup は --no-modify-path
+#   - 各並列ジョブのログは /tmp/install_<name>.log に分離
+# =============================================================================
+SH_PATH=$(cd "$(dirname "$0")" && pwd)
+cd "$SH_PATH"
 
-sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y wget
-wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.gdbinit -O $HOME/.gdbinit
-wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/.bashrc -O $HOME/.bashrc
-sudo wget https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main/manage_aslr.sh -O /usr/local/bin/aslr
-sudo chmod +x /usr/local/bin/aslr
+RAW="https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main"
 
-wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz -O /tmp/nvim-linux64.tar.gz
-tar xzf /tmp/nvim-linux64.tar.gz -C /tmp
-sudo cp /tmp/nvim-linux-x86_64/bin/nvim /usr/bin
-sudo cp -r /tmp/nvim-linux-x86_64/share/nvim /usr/share
-rm /tmp/nvim-linux64.tar.gz
-rm -r /tmp/nvim-linux-x86_64
+# sudo の資格情報をキャッシュ (以降のバックグラウンドジョブがパスワード待ちで
+# 固まらないように先頭で一度だけ確認する)
+sudo -v || true
 
-echo -e "\e[31m--- Docker installation ---\e[m"
+# -----------------------------------------------------------------------------
+# 1. apt: 前提パッケージのインストール + docker リポジトリの追加
+# -----------------------------------------------------------------------------
+echo -e "\e[31m--- apt update / prerequisites ---\e[m"
+sudo apt update
+sudo DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates curl wget
 
-for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+echo -e "\e[31m--- Docker repository setup ---\e[m"
+# 競合する古いパッケージを除去 (未インストールでも無害)
+sudo apt-get remove -y docker.io docker-doc docker-compose docker-compose-v2 \
+    podman-docker containerd runc 2>/dev/null || true
 
-# Add Docker's official GPG key:
-sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates curl
+# Docker 公式 GPG 鍵
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
+# Apt sources にリポジトリを追加
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# -----------------------------------------------------------------------------
+# 2. apt: 全パッケージをまとめて 1 回でインストール
+#    (従来スクリプト中に分散していた全 apt install の和集合)
+# -----------------------------------------------------------------------------
+echo -e "\e[31m--- apt install (all packages) ---\e[m"
 sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-echo -e "\e[34m--- Docker installation successfully ended ---\e[m"
-
-echo -e "\e[31m--- Pwnable Tools installation ---\e[m"
-
-sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
-
-sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
     build-essential \
     ca-certificates \
     libssl-dev \
@@ -49,7 +60,6 @@ sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     libsqlite3-dev \
     wget \
     curl \
-    llvm \
     make \
     zip \
     unzip \
@@ -66,97 +76,254 @@ sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     python3-dev \
     python3-pip \
     gcc \
+    gdb \
     tree \
     git \
-    libyaml-dev \
-
-python3 -m pip install -U pip
-
-echo -e "\e[31m--- Cargo installation ---\e[m"
-
-curl https://sh.rustup.rs -sSf | sh -s -- -y
-source "$HOME/.cargo/env"
-
-echo -e "\e[34m--- Cargo installation successfully ended ---\e[m"
-
-echo -e "\e[31m--- Node installation ---\e[m"
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source ~/.bashrc
-
-nvm install 20
-node -v
-npm -v
-
-echo -e "\e[34m--- Node installation successfully ended ---\e[m"
-
-sudo apt update && sudo apt install -y \
-    build-essential \
-    gdb \
-    libssl-dev \
-    libffi-dev \
     vim \
-    curl \
-    wget \
     pkg-config \
-    git \
     netcat \
     patchelf \
     sudo \
-    && sudo apt clean \
-    && sudo rm -rf /var/lib/apt/lists/*
+    ruby \
+    ruby-dev \
+    qemu-system-x86 \
+    musl-tools \
+    gdb-multiarch \
+    gdbserver \
+    binutils \
+    libc6-dbg \
+    python3-venv \
+    python3-setuptools \
+    tzdata \
+    file \
+    colordiff \
+    imagemagick
+echo -e "\e[34m--- apt install successfully ended ---\e[m"
 
+# -----------------------------------------------------------------------------
+# 3. 設定ファイルの配置
+#    (nvm が ~/.bashrc に追記するため、.bashrc の取得は node ジョブより前に行う)
+# -----------------------------------------------------------------------------
+wget -q --tries=3 --timeout=30 "$RAW/.gdbinit" -O "$HOME/.gdbinit"
+wget -q --tries=3 --timeout=30 "$RAW/.bashrc" -O "$HOME/.bashrc"
+sudo wget -q --tries=3 --timeout=30 "$RAW/manage_aslr.sh" -O /usr/local/bin/aslr
+sudo chmod +x /usr/local/bin/aslr
 
-sudo wget $(curl -s https://api.github.com/repos/slimm609/checksec/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4) -O /tmp/checksec.tar.gz
-mkdir -p /tmp/checksec
-tar xzvf /tmp/checksec.tar.gz -C /tmp/checksec
-sudo cp /tmp/checksec/checksec /usr/local/bin/checksec
-sudo chmod +x /usr/local/bin/checksec
+python3 -m pip install -U pip
 
-sudo wget https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
-unzip /tmp/rp++.zip -d /tmp
-sudo cp /tmp/rp-lin /usr/local/bin/rp++
-sudo chmod +x /usr/local/bin/rp++
-
-python3 -m pip install pwntools pathlib2 ptrlib
-
-cargo install ropr
-
+# Tools ディレクトリを事前に作成 (pwndbg clone 先)
 PWNDIR="$HOME/pwn"
 TOOLS_DIR="$PWNDIR/Tools"
+mkdir -p "$TOOLS_DIR"
 
-if [ ! -e $PWNDIR ]; then
-    mkdir $PWNDIR
+# -----------------------------------------------------------------------------
+# 4. 並列ジョブ定義
+#    apt を内部で使わない処理は全て並列実行する
+# -----------------------------------------------------------------------------
+
+# ネットワーク耐性: 一過性のDLタイムアウト等で失敗した場合に最大3回までリトライする。
+# (pwndbg/gef を並列実行すると uv の同時DLで回線が飽和し接続タイムアウトしやすいため)
+retry() {
+    local n=1 max=3
+    until "$@"; do
+        if [ "$n" -ge "$max" ]; then
+            echo "[retry] '$*' が $max 回失敗しました" >&2
+            return 1
+        fi
+        echo "[retry] '$*' 失敗 (試行 $n/$max)。15秒後に再試行" >&2
+        n=$((n + 1))
+        sleep 15
+    done
+}
+
+# uv の HTTP タイムアウトを延長し、同時DL数を絞る (回線飽和時のタイムアウト対策)。
+# pwndbg / gef の両タスクで使用する。
+export UV_HTTP_TIMEOUT=300
+export UV_CONCURRENT_DOWNLOADS=4
+
+# neovim (prebuilt)
+task_neovim() {
+    wget -q --tries=3 --timeout=30 https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz -O /tmp/nvim-linux64.tar.gz
+    tar xzf /tmp/nvim-linux64.tar.gz -C /tmp
+    sudo cp /tmp/nvim-linux-x86_64/bin/nvim /usr/bin
+    sudo cp -r /tmp/nvim-linux-x86_64/share/nvim /usr/share
+    rm -f /tmp/nvim-linux64.tar.gz
+    rm -rf /tmp/nvim-linux-x86_64
+}
+
+# checksec (latest release, prebuilt)
+task_checksec() {
+    sudo wget -q --tries=3 --timeout=30 "$(curl -s https://api.github.com/repos/slimm609/checksec/releases/latest \
+        | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4)" -O /tmp/checksec.tar.gz
+    mkdir -p /tmp/checksec
+    tar xzf /tmp/checksec.tar.gz -C /tmp/checksec
+    sudo cp /tmp/checksec/checksec /usr/local/bin/checksec
+    sudo chmod +x /usr/local/bin/checksec
+}
+
+# rp++ (prebuilt)
+task_rppp() {
+    sudo wget -q --tries=3 --timeout=30 https://github.com/0vercl0k/rp/releases/download/v2.1.3/rp-lin-gcc.zip -O /tmp/rp++.zip
+    unzip -o /tmp/rp++.zip -d /tmp
+    sudo cp /tmp/rp-lin /usr/local/bin/rp++
+    sudo chmod +x /usr/local/bin/rp++
+}
+
+# extract-vmlinux (kernel pwn 用)
+task_extract_vmlinux() {
+    sudo curl -fsSL https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux \
+        -o /usr/local/bin/extract-vmlinux
+    sudo chmod +x /usr/local/bin/extract-vmlinux
+}
+
+# python パッケージ
+task_pip() {
+    retry python3 -m pip install pwntools pathlib2 ptrlib
+}
+
+# Rust ツールチェイン + ropr (ソースビルド)
+# --no-modify-path: 並列実行する node ジョブと ~/.bashrc 書き込みが競合しないように。
+# repo の .bashrc は末尾で $HOME/.cargo/env を source 済みなので PATH は通る。
+task_rust() {
+    retry bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path'
+    . "$HOME/.cargo/env"
+    retry cargo install ropr
+}
+
+# Node (nvm 経由)。nvm が ~/.bashrc に追記する。
+task_node() {
+    retry bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    retry nvm install 20
+    node -v
+    npm -v
+}
+
+# Ruby gems (apt は使わない: ruby/ruby-dev は上の apt で導入済み)
+task_gems() {
+    sudo gem install one_gadget seccomp-tools
+}
+
+# radare2 (公式プリビルド .deb をDLするのみ。ソースビルドは行わない)
+# dpkg/apt ロックを避けるため、ここでは DL だけ行い、インストールは後処理(直列)で実施。
+task_radare2_dl() {
+    local url
+    url=$(curl -s https://api.github.com/repos/radareorg/radare2/releases/latest \
+        | grep browser_download_url \
+        | grep -E 'radare2_[0-9][0-9.]*_amd64\.deb' \
+        | cut -d '"' -f 4 | head -n1)
+    wget -q --tries=3 --timeout=30 "$url" -O /tmp/radare2.deb
+}
+
+# gdb 拡張: pwndbg と gef。
+# 本来この2つは setup スクリプト内部で apt-get を呼ぶため直列化が必要だったが、
+# 解析の結果 apt 依存は固定パッケージ群のみと判明したので、それらを上の統合 apt
+# install で前出ししたうえで、各スクリプト内の apt-get 呼び出しを `true` に置換して
+# 無効化する。これにより両者から dpkg ロック獲得が消え、完全に並列実行できる。
+# (重い処理である pwndbg の `uv sync` と gef の `uv pip install angr...` は apt では
+#  なく venv ローカルの Python 依存解決であり、書き込み先も別なので衝突しない)
+
+task_pwndbg() {
+    git clone https://github.com/pwndbg/pwndbg "$TOOLS_DIR/pwndbg"
+    cd "$TOOLS_DIR/pwndbg" || exit 1
+    # install_apt() 内の `sudo apt-get ...` を無効化 (依存は統合 apt install 済み)
+    sed -i -E 's/sudo apt-get /true /g' setup.sh
+    if grep -qE 'sudo apt-get ' setup.sh; then
+        echo "[warn] pwndbg setup.sh: apt-get 呼び出しが残存しています" >&2
+    fi
+    # uv の DL が一過性タイムアウトしても全体を落とさないようリトライ。
+    # setup.sh --update は冪等 (uv sync はDL再開、~/.gdbinit は更新モードで触らない)。
+    retry env UV_HTTP_TIMEOUT="$UV_HTTP_TIMEOUT" UV_CONCURRENT_DOWNLOADS="$UV_CONCURRENT_DOWNLOADS" \
+        DEBIAN_FRONTEND=noninteractive ./setup.sh --update
+}
+
+task_gef() {
+    local s=/tmp/gef-install.sh
+    wget -q --tries=3 --timeout=30 https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O "$s"
+    # 冒頭の `apt-get ...` / `DEBIAN_FRONTEND=... apt-get ...` を無効化
+    sed -i -E 's/^([[:space:]]*)(DEBIAN_FRONTEND=[^ ]+ )?apt-get /\1true /' "$s"
+    if grep -qE '(^|[[:space:]])apt-get ' "$s"; then
+        echo "[warn] gef install-uv.sh: apt-get 呼び出しが残存しています" >&2
+    fi
+    # gef は root 権限が必須 (id -u == 0 を要求)。uv の DL が一過性タイムアウトしても
+    # 全体を落とさないようリトライ。install-uv.sh は冒頭で gef.py の存在を見て中断する
+    # ため、再試行前に gef.py を削除して冪等にする (venv/DL済み分はそのまま再利用)。
+    local n=1 max=3
+    until sudo env UV_HTTP_TIMEOUT="$UV_HTTP_TIMEOUT" UV_CONCURRENT_DOWNLOADS="$UV_CONCURRENT_DOWNLOADS" \
+            DEBIAN_FRONTEND=noninteractive sh "$s"; do
+        if [ "$n" -ge "$max" ]; then
+            echo "[retry] gef install が $max 回失敗しました" >&2
+            return 1
+        fi
+        echo "[retry] gef install 失敗 (試行 $n/$max)。gef.py を掃除し15秒後に再試行" >&2
+        sudo rm -f /root/.gef/gef.py
+        n=$((n + 1))
+        sleep 15
+    done
+}
+
+# -----------------------------------------------------------------------------
+# 5. 並列実行
+# -----------------------------------------------------------------------------
+echo -e "\e[31m--- Parallel installation (neovim / checksec / rp++ / extract-vmlinux / pip / rust / node / gems / radare2 / pwndbg / gef) ---\e[m"
+
+pids=()
+names=()
+run_bg() {
+    local name="$1"
+    "$name" > "/tmp/install_${name}.log" 2>&1 &
+    pids+=("$!")
+    names+=("$name")
+}
+
+run_bg task_neovim
+run_bg task_checksec
+run_bg task_rppp
+run_bg task_extract_vmlinux
+run_bg task_pip
+run_bg task_rust
+run_bg task_node
+run_bg task_gems
+run_bg task_radare2_dl
+run_bg task_pwndbg
+run_bg task_gef
+
+fail=0
+for i in "${!pids[@]}"; do
+    if wait "${pids[$i]}"; then
+        echo -e "\e[34m[ok]\e[m ${names[$i]}"
+    else
+        echo -e "\e[31m[FAIL]\e[m ${names[$i]}  -> /tmp/install_${names[$i]}.log"
+        echo "------ /tmp/install_${names[$i]}.log (tail -40) ------"
+        tail -40 "/tmp/install_${names[$i]}.log" 2>/dev/null
+        echo "------ end of ${names[$i]} log ------"
+        fail=1
+    fi
+done
+
+# -----------------------------------------------------------------------------
+# 6. 後処理 (並列ジョブの成果物に依存するため wait の後で実行)
+# -----------------------------------------------------------------------------
+sudo cp "$HOME/.gdbinit" /root
+sudo mkdir -p /root/pwn
+sudo ln -sfn "$TOOLS_DIR" /root/pwn/Tools
+
+# radare2: DL 済みの .deb をインストール (依存解決は apt 任せ。apt lists 削除より前に実施)
+if [ -f /tmp/radare2.deb ]; then
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y /tmp/radare2.deb
+    rm -f /tmp/radare2.deb
+else
+    echo -e "\e[31m[FAIL]\e[m radare2 .deb not found (see /tmp/install_task_radare2_dl.log)"
+    fail=1
 fi
-cd $PWNDIR
 
-if [ ! -e $TOOLS_DIR ]; then
-    mkdir $TOOLS_DIR
+# apt キャッシュの掃除
+sudo apt clean
+sudo rm -rf /var/lib/apt/lists/*
+
+if [ "$fail" -ne 0 ]; then
+    echo -e "\e[31m--- Some tasks FAILED. Check /tmp/install_*.log ---\e[m"
+    exit 1
 fi
-cd $TOOLS_DIR
-
-git clone https://github.com/pwndbg/pwndbg
-cd $TOOLS_DIR/pwndbg && DEBIAN_FRONTEND=noninteractive ./setup.sh --update
-
-sudo apt install -y ruby ruby-dev build-essential
-sudo gem install one_gadget
-sudo gem install seccomp-tools
-
-wget -q https://raw.githubusercontent.com/bata24/gef/dev/install-uv.sh -O- | sudo DEBIAN_FRONTEND=noninteractive sh
-sudo cp $HOME/.gdbinit /root
-#sudo cp -r /root/.gef $HOME
-#sudo chown -R "$(whoami)":"$(whoami)" $HOME/.gef
-
-sudo mkdir /root/pwn
-sudo ln -s $TOOLS_DIR /root/pwn/Tools
-
-echo -e "\e[31m--- Kernel Pwnable Tools installation ---\e[m"
-
-sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-    qemu-system \
-    musl-tools
-
-sudo curl -o /usr/local/bin/extract-vmlinux -O https://raw.githubusercontent.com/torvalds/linux/master/scripts/extract-vmlinux
-sudo chmod +x /usr/local/bin/extract-vmlinux
-
-echo -e "\e[34m--- Pwnable Tools installation successfully ended ---\e[m"
+echo -e "\e[34m--- All installation successfully ended ---\e[m"

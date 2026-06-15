@@ -14,6 +14,7 @@ cmd=(
     "one_gadget"
     "patchelf"
     "python3"
+    "r2"
     "ropr"
     "rp++"
     "wget"
