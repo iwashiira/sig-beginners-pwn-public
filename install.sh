@@ -19,6 +19,11 @@ RAW="https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main"
 # 所要時間計測用: bash 組み込みの SECONDS を 0 にリセット (以降、経過秒を保持する)
 SECONDS=0
 
+# Ubuntu 24.04 は PEP 668 で system Python への pip を拒否する (externally-managed)。
+# 学習環境では pwntools 等を system python から直接 import したいので明示的に許可する。
+# (22.04 では無害)
+export PIP_BREAK_SYSTEM_PACKAGES=1
+
 # sudo の資格情報をキャッシュ (以降のバックグラウンドジョブがパスワード待ちで
 # 固まらないように先頭で一度だけ確認する)
 sudo -v || true
@@ -84,7 +89,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     git \
     vim \
     pkg-config \
-    netcat \
+    netcat-openbsd \
     patchelf \
     sudo \
     ruby \

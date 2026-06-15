@@ -38,10 +38,10 @@ cp ./install-all/command_chk-all.sh ./command_chk.sh
 Windowsを使っている人のみWSLを使うことができる。
 
 [host]
-- ubuntu22.04をインストールする
+- ubuntu24.04をインストールする
   - [WSL Installation](https://docs.microsoft.com/ja-jp/windows/wsl/install)
 
-[ubuntu22.04]
+[ubuntu24.04]
 
 - 下記のコマンドを実行するだけでよい。`~/pwn`ディレクトリができているはず。
 
@@ -73,7 +73,7 @@ Arm Macを使っている人はVagrantを使うことはできない。
 
 [host]　Vagrant,Virtualboxをそれぞれインストールすること。
 
-- generic/ubuntu2204を使う
+- bento/ubuntu-24.04を使う
   - [Vagrant Download](https://www.vagrantup.com/downloads)
 		
 - 必要なVagrantfileを持ってくる。
@@ -135,10 +135,10 @@ cd sig-beginners-pwn-public
 ./set_dotenv.sh
 chmod 777 ./Programs
 	
-# dockerのコンテナを作る。pwn_ubuntu2204は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
-docker-compose -p pwn_ubuntu2204 build --no-cache
+# dockerのコンテナを作る。pwn_ubuntu2404は好きな名前にしてよい。かなり時間がかかるが、その代わり別でaptして何かをインストールする必要はない。再ビルドもこれ。
+docker-compose -p pwn_ubuntu2404 build --no-cache
 # composeサブコマンドの場合
-docker compose -p pwn_ubuntu2204 build --no-cache
+docker compose -p pwn_ubuntu2404 build --no-cache
 	
 # 以降コンテナの操作 docker-compose.ymlの存在するディレクトリ上で行うこと
 # コンテナの実行
@@ -151,9 +151,9 @@ docker-compose stop
 docker-compose ps
 
 # コンテナ内に入る
-docker exec -it sig-beginners-pwn-public_pwn_ubuntu2204_1 /bin/bash
+docker exec -it sig-beginners-pwn-public_pwn_ubuntu2404_1 /bin/bash
 # または
-docker-compose exec pwn_ubuntu2204 bash
+docker-compose exec pwn_ubuntu2404 bash
 
 # コンテナから出る
 Ctrl-D
@@ -197,35 +197,35 @@ cd sig-beginners-pwn-public
 - Limaの起動他
 
 ```zsh
-# cpuやmemoryなどを指定したい人は、jammy-amd64.ymlの中の対応するエントリをnullから変更する
-# ホストのディレクトリをマウントしたい人は、jammy-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
+# cpuやmemoryなどを指定したい人は、noble-amd64.ymlの中の対応するエントリをnullから変更する
+# ホストのディレクトリをマウントしたい人は、noble-amd64.ymlの中のmounts部分のコメントアウトを外し、自身のProgramsの絶対pathを""内に書き込むこと。
 	
-# ubuntu22.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
-limactl start --tty=false --timeout 60m0s jammy-amd64.yml
+# ubuntu24.04の仮想マシンを作成して起動(初回, 時間がかかるのでtimeoutを伸ばす)
+limactl start --tty=false --timeout 60m0s noble-amd64.yml
 
 # 別のターミナルから、以下のコマンドを打てば、進行状況などが分かる。
-tail -f -n 40 ~/.lima/jammy-amd64/serial.log
+tail -f -n 40 ~/.lima/noble-amd64/serial.log
 
 # 仮想マシンの起動
 # 末尾にymlがついていないことに注意
-limactl start --tty=false jammy-amd64
+limactl start --tty=false noble-amd64
 
 # 仮想マシンの一覧
 limactl list
 
 # 仮想マシンの中にはいる
-limactl shell jammy-amd64
+limactl shell noble-amd64
 
 # 仮想マシンから出る
 Ctrl-D
 
 # 仮想マシンを止める
-limactl stop jammy-amd64
+limactl stop noble-amd64
 ```
   
 - 色々変更したい場合は[default.yml](https://github.com/lima-vm/lima/blob/master/examples/default.yaml)を参照のこと
 
-[ubuntu22.04]　
+[ubuntu24.04]　
 
 - ホストのディレクトリをマウントしたい人は、以下のコマンドを打てば、ゲストのVM内の~/pwn/ProgramsとホストのProgramsディレクトリを繋ぐことができる。
 
