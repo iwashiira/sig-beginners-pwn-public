@@ -16,6 +16,9 @@ cd "$SH_PATH"
 
 RAW="https://raw.githubusercontent.com/iwashiira/sig-beginners-pwn-public/main"
 
+# 所要時間計測用: bash 組み込みの SECONDS を 0 にリセット (以降、経過秒を保持する)
+SECONDS=0
+
 # sudo の資格情報をキャッシュ (以降のバックグラウンドジョブがパスワード待ちで
 # 固まらないように先頭で一度だけ確認する)
 sudo -v || true
@@ -98,7 +101,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     file \
     colordiff \
     imagemagick
-echo -e "\e[34m--- apt install successfully ended ---\e[m"
+APT_SECONDS=$SECONDS
+echo -e "\e[34m--- apt install successfully ended (${APT_SECONDS}s) ---\e[m"
 
 # -----------------------------------------------------------------------------
 # 3. 設定ファイルの配置
@@ -290,13 +294,21 @@ task_gef() {
 # -----------------------------------------------------------------------------
 # 5. 並列実行
 # -----------------------------------------------------------------------------
+PARALLEL_START=$SECONDS
 echo -e "\e[31m--- Parallel installation (neovim / checksec / rp++ / extract-vmlinux / pip / rust / node / gems / radare2 / pwndbg / gef) ---\e[m"
 
 pids=()
 names=()
+# 各ジョブは自身の所要秒数を末尾に __DURATION__=<秒> として書き出す。
 run_bg() {
     local name="$1"
-    "$name" > "/tmp/install_${name}.log" 2>&1 &
+    {
+        local _t0=$SECONDS
+        "$name"
+        local _rc=$?
+        echo "__DURATION__=$((SECONDS - _t0))"
+        exit "$_rc"
+    } > "/tmp/install_${name}.log" 2>&1 &
     pids+=("$!")
     names+=("$name")
 }
@@ -313,18 +325,21 @@ run_bg task_radare2_dl
 run_bg task_pwndbg
 run_bg task_gef
 
+job_dur() { grep -oE '__DURATION__=[0-9]+' "/tmp/install_$1.log" 2>/dev/null | tail -1 | cut -d= -f2; }
+
 fail=0
 for i in "${!pids[@]}"; do
     if wait "${pids[$i]}"; then
-        echo -e "\e[34m[ok]\e[m ${names[$i]}"
+        echo -e "\e[34m[ok]\e[m ($(job_dur "${names[$i]}")s) ${names[$i]}"
     else
-        echo -e "\e[31m[FAIL]\e[m ${names[$i]}  -> /tmp/install_${names[$i]}.log"
+        echo -e "\e[31m[FAIL]\e[m ($(job_dur "${names[$i]}")s) ${names[$i]}  -> /tmp/install_${names[$i]}.log"
         echo "------ /tmp/install_${names[$i]}.log (tail -40) ------"
         tail -40 "/tmp/install_${names[$i]}.log" 2>/dev/null
         echo "------ end of ${names[$i]} log ------"
         fail=1
     fi
 done
+PARALLEL_SECONDS=$((SECONDS - PARALLEL_START))
 
 # -----------------------------------------------------------------------------
 # 6. 後処理 (並列ジョブの成果物に依存するため wait の後で実行)
@@ -347,6 +362,16 @@ fi
 # apt キャッシュの掃除
 sudo apt clean
 sudo rm -rf /var/lib/apt/lists/*
+
+# -----------------------------------------------------------------------------
+# 所要時間サマリ
+# -----------------------------------------------------------------------------
+fmt() { printf '%dm%02ds' "$(($1 / 60))" "$(($1 % 60))"; }
+echo -e "\e[36m===== 所要時間サマリ =====\e[m"
+echo "  apt フェーズ      : $(fmt "$APT_SECONDS")  (${APT_SECONDS}s)"
+echo "  並列フェーズ      : $(fmt "$PARALLEL_SECONDS")  (${PARALLEL_SECONDS}s)"
+echo "  合計(install.sh)  : $(fmt "$SECONDS")  (${SECONDS}s)"
+echo -e "\e[36m=========================\e[m"
 
 if [ "$fail" -ne 0 ]; then
     echo -e "\e[31m--- Some tasks FAILED. Check /tmp/install_*.log ---\e[m"
