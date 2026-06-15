@@ -14,6 +14,9 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "bento/ubuntu-24.04"
 
+  # provision 中の重い並列インストールで SSH のアイドル接続が切れないように keepalive を有効化。
+  config.ssh.keep_alive = true
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.

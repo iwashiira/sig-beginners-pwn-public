@@ -332,6 +332,21 @@ run_bg task_gef
 
 job_dur() { grep -oE '__DURATION__=[0-9]+' "/tmp/install_$1.log" 2>/dev/null | tail -1 | cut -d= -f2; }
 
+# ハートビート: 並列フェーズは各ジョブが /tmp ログに出力するため標準出力が無音になり、
+# Vagrant の SSH 等でアイドル接続が切断されることがある。30秒ごとに進捗を出して接続を維持する。
+heartbeat() {
+    while true; do
+        sleep 30
+        local done_n=0
+        for nm in "${names[@]}"; do
+            grep -q '__DURATION__=' "/tmp/install_${nm}.log" 2>/dev/null && done_n=$((done_n + 1))
+        done
+        echo "    ...並列インストール継続中: ${done_n}/${#names[@]} 完了 (${SECONDS}s 経過)"
+    done
+}
+heartbeat &
+HEARTBEAT_PID=$!
+
 fail=0
 for i in "${!pids[@]}"; do
     if wait "${pids[$i]}"; then
@@ -344,6 +359,8 @@ for i in "${!pids[@]}"; do
         fail=1
     fi
 done
+kill "$HEARTBEAT_PID" 2>/dev/null
+wait "$HEARTBEAT_PID" 2>/dev/null
 PARALLEL_SECONDS=$((SECONDS - PARALLEL_START))
 
 # -----------------------------------------------------------------------------
